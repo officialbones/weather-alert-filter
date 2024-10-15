@@ -128,17 +128,13 @@ function displayAlerts(category) {
             const listItem = document.createElement('li');
             listItem.classList.add('alert-item');
 
-            // Get the appropriate icon for the category
-            const alertIcon = getAlertIcon(alert.category);
-
             // Create severity box
             const severityBox = document.createElement('div');
-            severityBox.classList.add('severity-box');
+            severityBox.classList.add('severity-box', alert.category.toLowerCase());
             severityBox.textContent = `Severity: ${alert.category}`;
-            severityBox.classList.add(alert.category.toLowerCase());
 
             const titleElem = document.createElement('h3');
-            titleElem.innerHTML = `${alertIcon} ${alert.title}`;
+            titleElem.innerHTML = `${getAlertIcon(alert.category)} ${alert.title}`;
             titleElem.classList.add('alert-title');
 
             const updatedElem = document.createElement('p');

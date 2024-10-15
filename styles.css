@@ -48,20 +48,6 @@ nav button:hover {
     background-color: #ff483d;
 }
 
-/* Weather Widget Styles */
-#weather-widget {
-    background-color: #1a1a1a;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    text-align: center;
-}
-
-#weather-info {
-    font-size: 1.2em;
-    margin-top: 10px;
-}
-
 /* Main Content Styles */
 #content {
     padding: 40px;
@@ -96,33 +82,63 @@ ul {
     padding-left: 0;
 }
 
-.alert-item {
+ul li {
     background-color: #2a2a2a;
     margin-bottom: 15px;
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #ff6f61;
-    position: relative;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.alert-title {
+.alert-item h3 {
+    margin: 0;
     font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #f5f5f5;
-    display: flex;
-    align-items: center;
+    color: #ff6f61;
 }
 
 .alert-updated {
     font-size: 0.9em;
-    margin-bottom: 10px;
-    color: #bbbbbb;
+    color: #bbb;
+    margin-top: 5px;
 }
 
 .alert-summary {
     font-size: 1em;
-    line-height: 1.5;
-    color: #f5f5f5;
+    margin-top: 10px;
+    color: #ddd;
+}
+
+/* Severity Box Styles */
+.severity-box {
+    padding: 8px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    text-align: center;
+}
+
+.severity-box.warnings {
+    background-color: #d9534f;
+    border: 1px solid #b52b27;
+}
+
+severity-box.watches {
+    background-color: #f0ad4e;
+    border: 1px solid #d0871a;
+}
+
+.severity-box.advisories {
+    background-color: #5bc0de;
+    border: 1px solid #46a2c2;
+}
+
+.severity-box.others {
+    background-color: #5cb85c;
+    border: 1px solid #4a9c4a;
 }
 
 /* Footer Styles */
@@ -132,4 +148,21 @@ footer {
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
+}
+
+/* Weather Info Styles */
+#weather-info {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #5bc0de;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#weather-info p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #ddd;
+    margin-bottom: 10px;
 }
