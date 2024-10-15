@@ -77,11 +77,6 @@ nav button:hover {
     background-color: #ff6f61;
 }
 
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
 /* Weather Info Styles */
 #weather-info {
     background-color: #2a2a2a;
