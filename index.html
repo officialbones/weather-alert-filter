@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Alerts - Jay County News & Information</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
 </head>
 <body>
     <header>
@@ -19,13 +20,6 @@
         </nav>
     </header>
 
-    <section id="weather-widget">
-        <h2>Local Weather Forecast</h2>
-        <div id="weather-info">
-            <p>Loading local weather...</p>
-        </div>
-    </section>
-
     <section id="content">
         <nav id="tabs">
             <button onclick="filterAlerts('Warnings')">Warnings</button>
@@ -33,13 +27,31 @@
             <button onclick="filterAlerts('Advisories')">Advisories</button>
             <button onclick="filterAlerts('All')">All Alerts</button>
         </nav>
+
+        <div id="weather-info">
+            <h2>Local Weather Forecast</h2>
+            <div id="local-weather">Loading local weather...</div>
+        </div>
+
         <div id="map" style="height: 400px;"></div>
-        <ul id="alerts-list"></ul>
+
+        <div id="alerts-section">
+            <h2>Active Weather Alerts</h2>
+            <div id="alerts-list"></div>
+        </div>
     </section>
 
     <footer>
         <p>Jay County News & Information &copy; 2024</p>
     </footer>
+
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <div id="modal-details"></div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
