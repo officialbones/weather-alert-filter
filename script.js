@@ -62,6 +62,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 alertsList.appendChild(alertElement);
             }
         });
+
+        if (alertsList.children.length === 0) {
+            alertsList.innerHTML = `<li class="alert-item">No alerts available for ${filterType}</li>`;
+        }
     }
 
     function capitalizeFirstLetter(string) {
@@ -71,7 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add event listeners for filter buttons
     document.getElementById('tabs').addEventListener('click', function (event) {
         if (event.target.tagName === 'BUTTON') {
-            filterAlerts(event.target.textContent);
+            const filterType = event.target.textContent.trim();
+            filterAlerts(filterType);
         }
     });
 
