@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("JavaScript Loaded Successfully");
-    
+
+    // Define alerts as a global variable so that it can be accessed by filterAlerts
+    window.alerts = [];
+
     // Function to fetch and display weather alerts
     fetchWeatherAlerts();
 
@@ -11,8 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function to fetch weather alerts
 function fetchWeatherAlerts() {
     console.log("Fetching weather alerts...");
-    // Assuming you have an API to get alerts or you have them hardcoded
-    const alerts = [
+    // Example alerts data, replace with actual API fetch if available
+    window.alerts = [
         {
             type: 'Warnings',
             title: 'Freeze Warning issued October 15 at 3:10PM EDT until October 16 at 9:00AM EDT by NWS Northern Indiana',
@@ -20,17 +23,22 @@ function fetchWeatherAlerts() {
             description: '* WHAT...Sub-freezing temperatures as low as 30 expected. * WHERE...Portions of northern Indiana, southwest Michigan, and northwest Ohio. * WHEN...From 2 AM to 9 AM EDT Wednesday. * IMPACTS...Frost and freeze conditions could kill crops, other sensitive vegetation and possibly damage unprotected outdoor plumbing.'
         }
     ];
-    console.log("Alerts fetched:", alerts);
-    filterAlerts('All', alerts); // Display all alerts by default
+    console.log("Alerts fetched:", window.alerts);
+    filterAlerts('All'); // Display all alerts by default
 }
 
 // Function to filter alerts by type
-function filterAlerts(alertType, alerts) {
+function filterAlerts(alertType) {
     console.log(`Filtering alerts for type: ${alertType}`);
     const alertsList = document.getElementById("alerts-list");
     alertsList.innerHTML = ''; // Clear the current list
 
-    alerts.forEach(alert => {
+    if (!window.alerts || window.alerts.length === 0) {
+        console.error("No alerts data found");
+        return;
+    }
+
+    window.alerts.forEach(alert => {
         if (alertType === 'All' || alert.type === alertType) {
             const alertElement = document.createElement('div');
             alertElement.classList.add('alert-item');
