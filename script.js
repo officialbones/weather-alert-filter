@@ -5,7 +5,7 @@ async function fetchWeatherAlerts() {
         const textData = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(textData, 'application/xml');
-        
+
         console.log("RSS feed fetched successfully:", xmlDoc);  // Debug log
 
         const entries = xmlDoc.querySelectorAll('entry');
@@ -13,11 +13,10 @@ async function fetchWeatherAlerts() {
         
         entries.forEach(entry => {
             const title = entry.querySelector('title').textContent;
-            if (title.includes('Tornado Warning') || title.includes('Wind Advisory')) {
-                const listItem = document.createElement('li');
-                listItem.textContent = title;
-                alertList.appendChild(listItem);
-            }
+            // Display all alerts without filtering
+            const listItem = document.createElement('li');
+            listItem.textContent = title;
+            alertList.appendChild(listItem);
         });
     } catch (error) {
         console.error('Error fetching the RSS feed:', error);  // Debug error log
@@ -25,3 +24,4 @@ async function fetchWeatherAlerts() {
 }
 
 window.onload = fetchWeatherAlerts;
+
