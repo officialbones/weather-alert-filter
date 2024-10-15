@@ -37,6 +37,8 @@ async function fetchWeatherAlerts() {
     const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
     try {
         const response = await fetch(rssUrl);
+        if (!response.ok) throw new Error(`Failed to fetch alerts: ${response.status}`);
+        
         const textData = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(textData, 'application/xml');
@@ -136,7 +138,7 @@ function displayAlerts(category) {
             severityBox.classList.add(alert.category.toLowerCase());
 
             const titleElem = document.createElement('h3');
-            titleElem.textContent = `${alertIcon} ${alert.title}`;
+            titleElem.innerHTML = `${alertIcon} ${alert.title}`;
             titleElem.classList.add('alert-title');
 
             const updatedElem = document.createElement('p');
@@ -178,6 +180,8 @@ async function fetchLocalWeather() {
 
     try {
         const response = await fetch(weatherUrl);
+        if (!response.ok) throw new Error(`Failed to fetch weather data: ${response.status}`);
+        
         const weatherData = await response.json();
 
         const weatherInfoDiv = document.getElementById('weather-info');
@@ -188,7 +192,7 @@ async function fetchLocalWeather() {
         `;
     } catch (error) {
         console.error('Error fetching the local weather:', error);
-        document.getElementById('weather-info').innerHTML = '<p>Unable to load local weather data.</p>';
+        document.getElementById('weather-info').innerHTML = '<p>Unable to load local weather data. Please check your API key and internet connection.</p>';
     }
 }
 
