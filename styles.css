@@ -105,7 +105,151 @@ ul {
 
 .alert-title {
     font-size: 1.5em;
-    margin-bottom: 10px;
+    margin-bottom: 10px;/* General Styles */
+    body {
+        background-color: #121212; /* Dark background */
+        color: #f5f5f5; /* Light text for contrast */
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Header Styles */
+    header {
+        background-color: #1a1a1a;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 3px solid #333;
+    }
+    
+    #logo {
+        width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+        margin: 0;
+        color: #ffffff;
+    }
+    
+    nav {
+        margin-top: 10px;
+    }
+    
+    nav button {
+        background-color: #ff6f61;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 1.1em;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    nav button:hover {
+        background-color: #ff483d;
+    }
+    
+    /* Main Content Styles */
+    #content {
+        padding: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: left;
+    }
+    
+    #tabs {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    #tabs button {
+        background-color: #4a4a4a;
+        border: none;
+        padding: 10px 15px;
+        margin: 5px;
+        font-size: 1em;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    #tabs button:hover {
+        background-color: #ff6f61;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    .alert-item {
+        background-color: #2a2a2a;
+        margin-bottom: 15px;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #ff6f61;
+        position: relative;
+    }
+    
+    .alert-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        color: #f5f5f5;
+        display: flex;
+        align-items: center;
+    }
+    
+    .alert-updated {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+        color: #bbbbbb;
+    }
+    
+    .alert-summary {
+        font-size: 1em;
+        line-height: 1.5;
+        color: #f5f5f5;
+    }
+    
+    /* Severity Box Styling */
+    .severity-box {
+        font-size: 0.9em;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: #fff;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+    
+    .severity-box.warnings {
+        background-color: #ff4d4d; /* Red for Warnings */
+    }
+    
+    .severity-box.watches {
+        background-color: #ffa64d; /* Orange for Watches */
+    }
+    
+    .severity-box.advisories {
+        background-color: #ffff66; /* Yellow for Advisories */
+    }
+    
+    /* Footer Styles */
+    footer {
+        background-color: #1a1a1a;
+        padding: 20px;
+        text-align: center;
+        color: #999;
+        border-top: 3px solid #333;
+    }
+    
     color: #f5f5f5;
     display: flex;
     align-items: center;

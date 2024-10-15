@@ -126,24 +126,14 @@ function displayAlerts(category) {
             const listItem = document.createElement('li');
             listItem.classList.add('alert-item');
 
-            // Assign class based on alert severity category
-            switch (alert.category) {
-                case 'Warnings':
-                    listItem.classList.add('warning');
-                    break;
-                case 'Watches':
-                    listItem.classList.add('watch');
-                    break;
-                case 'Advisories':
-                    listItem.classList.add('advisory');
-                    break;
-                default:
-                    listItem.classList.add('other');
-                    break;
-            }
-
             // Get the appropriate icon for the category
             const alertIcon = getAlertIcon(alert.category);
+
+            // Create severity box
+            const severityBox = document.createElement('div');
+            severityBox.classList.add('severity-box');
+            severityBox.textContent = `Severity: ${alert.category}`;
+            severityBox.classList.add(alert.category.toLowerCase());
 
             const titleElem = document.createElement('h3');
             titleElem.textContent = `${alertIcon} ${alert.title}`;
@@ -157,6 +147,7 @@ function displayAlerts(category) {
             summaryElem.textContent = alert.summary;
             summaryElem.classList.add('alert-summary');
 
+            listItem.appendChild(severityBox);
             listItem.appendChild(titleElem);
             listItem.appendChild(updatedElem);
             listItem.appendChild(summaryElem);
