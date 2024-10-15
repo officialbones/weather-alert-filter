@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+    console.log('JavaScript Loaded Successfully');
+
     const alertsData = []; // Store fetched alerts here
 
     async function fetchWeatherAlerts() {
+        console.log('Fetching weather alerts...');
         const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
         try {
             const response = await fetch(rssUrl);
@@ -27,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 alertsData.push(alertItem);
             });
 
+            console.log('Alerts fetched:', alertsData);
             filterAlerts('All'); // Show all alerts initially
         } catch (error) {
             console.error('Error fetching the RSS feed:', error);
@@ -41,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function filterAlerts(filterType) {
+        console.log('Filtering alerts for type:', filterType);
         const alertsList = document.getElementById('alerts-list');
         alertsList.innerHTML = ''; // Clear current alerts
 
