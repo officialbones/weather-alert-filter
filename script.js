@@ -9,6 +9,29 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+// Function to request notification permission
+function requestNotificationPermission() {
+    if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                console.log("Notification permission granted.");
+            } else {
+                console.log("Notification permission denied.");
+            }
+        });
+    }
+}
+
+// Function to send a notification for critical alerts
+function sendAlertNotification(alert) {
+    if (Notification.permission === "granted") {
+        new Notification(alert.title, {
+            body: alert.summary,
+            icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Warning_icon.svg/1200px-Warning_icon.svg.png" // Example icon URL, replace with your own if needed
+        });
+    }
+}
+
 // Function to fetch and display all weather alerts
 async function fetchWeatherAlerts() {
     const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
@@ -30,13 +53,19 @@ async function fetchWeatherAlerts() {
             const category = getCategory(title);
 
             // Store alert data along with coordinates
-            alertsData.push({
+            const alert = {
                 title: title,
                 category: category,
                 summary: summary,
                 updated: updated,
                 polygonCoordinates: polygonCoordinates
-            });
+            };
+            alertsData.push(alert);
+
+            // Send notification for warnings or tornado alerts
+            if (category === 'Warnings' && title.toLowerCase().includes('tornado')) {
+                sendAlertNotification(alert);
+            }
 
             // Plot polygon if coordinates are available
             if (polygonCoordinates) {
@@ -135,5 +164,8 @@ function getAlertIcon(category) {
     }
 }
 
-// Run the function to get alerts when the page loads
-window.onload = fetchWeatherAlerts;
+// Request notification permission and fetch alerts when the page loads
+window.onload = () => {
+    requestNotificationPermission();
+    fetchWeatherAlerts();
+};
