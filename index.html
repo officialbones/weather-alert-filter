@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Alerts - Jay County News & Information</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
     <header>
@@ -24,6 +26,7 @@
             <button onclick="filterAlerts('Advisories')">Advisories</button>
             <button onclick="filterAlerts('All')">All Alerts</button>
         </nav>
+        <div id="map" style="height: 400px;"></div>
         <ul id="alerts-list"></ul>
     </section>
 

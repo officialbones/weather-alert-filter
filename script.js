@@ -1,6 +1,14 @@
 // Store alerts data
 let alertsData = [];
 
+// Initialize the map and set its view to the user's location
+let map = L.map('map').setView([40.4357, -85.01], 7); // Center on your location
+
+// Set up the OSM layer for the map
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
 // Function to fetch and display all weather alerts
 async function fetchWeatherAlerts() {
     const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
@@ -17,15 +25,23 @@ async function fetchWeatherAlerts() {
             const title = entry.querySelector('title').textContent;
             const summary = entry.querySelector('summary').textContent;
             const updated = entry.querySelector('updated').textContent;
+            const polygonCoordinates = entry.querySelector('geocode > polygon')?.textContent;
 
             const category = getCategory(title);
 
+            // Store alert data along with coordinates
             alertsData.push({
                 title: title,
                 category: category,
                 summary: summary,
-                updated: updated
+                updated: updated,
+                polygonCoordinates: polygonCoordinates
             });
+
+            // Plot polygon if coordinates are available
+            if (polygonCoordinates) {
+                plotAlertOnMap(polygonCoordinates, title, summary);
+            }
         });
 
         // Display all alerts by default
@@ -33,6 +49,17 @@ async function fetchWeatherAlerts() {
     } catch (error) {
         console.error('Error fetching the RSS feed:', error);
     }
+}
+
+// Function to plot an alert on the map
+function plotAlertOnMap(polygonCoordinates, title, summary) {
+    const coordsArray = polygonCoordinates.split(' ').map(coord => {
+        const [lat, lon] = coord.split(',');
+        return [parseFloat(lat), parseFloat(lon)];
+    });
+
+    const polygon = L.polygon(coordsArray, { color: 'red' }).addTo(map);
+    polygon.bindPopup(`<b>${title}</b><br>${summary}`);
 }
 
 // Function to determine the category based on the alert title
