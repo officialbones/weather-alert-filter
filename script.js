@@ -126,6 +126,22 @@ function displayAlerts(category) {
             const listItem = document.createElement('li');
             listItem.classList.add('alert-item');
 
+            // Assign class based on alert severity category
+            switch (alert.category) {
+                case 'Warnings':
+                    listItem.classList.add('warning');
+                    break;
+                case 'Watches':
+                    listItem.classList.add('watch');
+                    break;
+                case 'Advisories':
+                    listItem.classList.add('advisory');
+                    break;
+                default:
+                    listItem.classList.add('other');
+                    break;
+            }
+
             // Get the appropriate icon for the category
             const alertIcon = getAlertIcon(alert.category);
 

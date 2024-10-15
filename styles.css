@@ -82,18 +82,40 @@ ul {
     padding-left: 0;
 }
 
-.alert-item {
-    background-color: #2a2a2a;
-    margin-bottom: 15px;
-    padding: 20px;
-    border-radius: 5px;
+/* Alert severity color coding */
+.alert-item.warning {
+    background-color: #ff4d4d; /* Red for Warnings */
+    border: 2px solid #ff1a1a;
+}
+
+.alert-item.watch {
+    background-color: #ffa64d; /* Orange for Watches */
+    border: 2px solid #ff751a;
+}
+
+.alert-item.advisory {
+    background-color: #ffff66; /* Yellow for Advisories */
+    border: 2px solid #e6e600;
+}
+
+.alert-item.other {
+    background-color: #2a2a2a; /* Default background for Others */
     border: 1px solid #ff6f61;
 }
 
 .alert-title {
     font-size: 1.5em;
     margin-bottom: 10px;
-    color: #ff6f61;
+    color: #f5f5f5;
+    display: flex;
+    align-items: center;
+}
+
+.alert-title img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    animation: bounce 1s infinite alternate;
 }
 
 .alert-updated {
