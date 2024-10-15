@@ -1,120 +1,90 @@
-document.addEventListener("DOMContentLoaded", function () {
-    console.log('JavaScript Loaded Successfully');
-
-    const weatherApiKey = '75491fbd2d99da35a5aed98142354714'; // Replace with your actual OpenWeather API key
-    const weatherEndpoint = `https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&units=imperial&appid=${weatherApiKey}`;
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("JavaScript Loaded Successfully");
     
-    // Fetching weather data
-    async function fetchWeather() {
-        console.log('Fetching local weather...');
-        try {
-            const response = await fetch(weatherEndpoint);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const weatherData = await response.json();
-            console.log('Weather Data:', weatherData);
-            displayWeather(weatherData);
-        } catch (error) {
-            console.error('Error fetching weather data:', error);
-            document.getElementById('weather-info').innerHTML = 'Unable to load local weather data.';
+    // Function to fetch and display weather alerts
+    fetchWeatherAlerts();
+
+    // Function to fetch local weather data
+    fetchWeatherData();
+});
+
+// Function to fetch weather alerts
+function fetchWeatherAlerts() {
+    console.log("Fetching weather alerts...");
+    // Assuming you have an API to get alerts or you have them hardcoded
+    const alerts = [
+        {
+            type: 'Warnings',
+            title: 'Freeze Warning issued October 15 at 3:10PM EDT until October 16 at 9:00AM EDT by NWS Northern Indiana',
+            updated: '2024-10-15T15:10:00-04:00',
+            description: '* WHAT...Sub-freezing temperatures as low as 30 expected. * WHERE...Portions of northern Indiana, southwest Michigan, and northwest Ohio. * WHEN...From 2 AM to 9 AM EDT Wednesday. * IMPACTS...Frost and freeze conditions could kill crops, other sensitive vegetation and possibly damage unprotected outdoor plumbing.'
         }
-    }
+    ];
+    console.log("Alerts fetched:", alerts);
+    filterAlerts('All', alerts); // Display all alerts by default
+}
 
-    function displayWeather(data) {
-        const weatherInfoDiv = document.getElementById('weather-info');
-        const temperature = data.main.temp;
-        const tempMin = data.main.temp_min;
-        const tempMax = data.main.temp_max;
-        const condition = data.weather[0].description;
-        const windSpeed = data.wind.speed;
+// Function to filter alerts by type
+function filterAlerts(alertType, alerts) {
+    console.log(`Filtering alerts for type: ${alertType}`);
+    const alertsList = document.getElementById("alerts-list");
+    alertsList.innerHTML = ''; // Clear the current list
 
-        weatherInfoDiv.innerHTML = `
-            <p>Temperature: ${temperature}°F (High: ${tempMax}°F, Low: ${tempMin}°F)</p>
-            <p>Condition: ${condition}</p>
-            <p>Wind Speed: ${windSpeed} mph</p>
-        `;
-    }
+    alerts.forEach(alert => {
+        if (alertType === 'All' || alert.type === alertType) {
+            const alertElement = document.createElement('div');
+            alertElement.classList.add('alert-item');
 
-    // Fetching weather alerts
-    async function fetchWeatherAlerts() {
-        console.log('Fetching weather alerts...');
-        const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
-        try {
-            const response = await fetch(rssUrl);
-            const textData = await response.text();
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(textData, 'application/xml');
+            const severityBox = document.createElement('div');
+            severityBox.classList.add('severity-box', alert.type.toLowerCase());
+            severityBox.textContent = `Severity: ${alert.type}`;
+            alertElement.appendChild(severityBox);
 
-            const entries = xmlDoc.querySelectorAll('entry');
-            const alertsData = [];
+            const alertTitle = document.createElement('h3');
+            alertTitle.textContent = alert.title;
+            alertElement.appendChild(alertTitle);
 
-            entries.forEach(entry => {
-                const title = entry.querySelector('title').textContent;
-                const summary = entry.querySelector('summary').textContent;
-                const updated = entry.querySelector('updated').textContent;
+            const alertUpdated = document.createElement('div');
+            alertUpdated.classList.add('alert-updated');
+            alertUpdated.textContent = `Updated: ${alert.updated}`;
+            alertElement.appendChild(alertUpdated);
 
-                const alertItem = {
-                    title,
-                    summary,
-                    updated,
-                    severity: classifyAlert(title)
-                };
+            const alertSummary = document.createElement('div');
+            alertSummary.classList.add('alert-summary');
+            alertSummary.textContent = alert.description;
+            alertElement.appendChild(alertSummary);
 
-                alertsData.push(alertItem);
-            });
-
-            console.log('Alerts fetched:', alertsData);
-            renderAlerts(alertsData, 'All'); // Show all alerts initially
-        } catch (error) {
-            console.error('Error fetching the RSS feed:', error);
-        }
-    }
-
-    function classifyAlert(title) {
-        if (title.includes('Warning')) return 'warnings';
-        if (title.includes('Watch')) return 'watches';
-        if (title.includes('Advisory')) return 'advisories';
-        return 'others';
-    }
-
-    function renderAlerts(alerts, filterType) {
-        console.log('Filtering alerts for type:', filterType);
-        const alertsList = document.getElementById('alerts-list');
-        alertsList.innerHTML = ''; // Clear current alerts
-
-        alerts.forEach(alert => {
-            if (filterType === 'All' || alert.severity === filterType.toLowerCase()) {
-                const alertElement = document.createElement('li');
-                alertElement.className = 'alert-item';
-                alertElement.innerHTML = `
-                    <div class="severity-box ${alert.severity}">${capitalizeFirstLetter(alert.severity)}</div>
-                    <h3>${alert.title}</h3>
-                    <p class="alert-updated">Updated: ${alert.updated}</p>
-                    <p class="alert-summary">${alert.summary}</p>
-                `;
-                alertsList.appendChild(alertElement);
-            }
-        });
-
-        if (alertsList.children.length === 0) {
-            alertsList.innerHTML = `<li class="alert-item">No alerts available for ${filterType}</li>`;
-        }
-    }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    // Add event listeners for filter buttons
-    document.getElementById('tabs').addEventListener('click', function (event) {
-        if (event.target.tagName === 'BUTTON') {
-            const filterType = event.target.textContent.trim();
-            renderAlerts(alertsData, filterType);
+            alertsList.appendChild(alertElement);
         }
     });
+}
 
-    // Fetch the weather and alerts on page load
-    fetchWeather();
-    fetchWeatherAlerts();
-});
+// Function to fetch local weather data
+function fetchWeatherData() {
+    console.log("Fetching weather data...");
+    const apiKey = '75491fbd2d99da35a5aed98142354714';
+    const lat = '40.4357';
+    const lon = '-85.01';
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log("Weather data fetched successfully:", data);
+            displayWeatherData(data);
+        })
+        .catch(error => {
+            console.error("Error fetching weather data:", error);
+            document.getElementById('weather-info').innerHTML = 'Unable to load local weather data.';
+        });
+}
+
+// Function to display fetched weather data
+function displayWeatherData(data) {
+    const weatherInfo = document.getElementById('weather-info');
+    weatherInfo.innerHTML = `
+        <p>Temperature: ${data.main.temp}°F (High: ${data.main.temp_max}°F, Low: ${data.main.temp_min}°F)</p>
+        <p>Condition: ${data.weather[0].description}</p>
+        <p>Wind Speed: ${data.wind.speed} mph</p>
+    `;
+}
