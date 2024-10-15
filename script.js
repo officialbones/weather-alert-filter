@@ -1,8 +1,42 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log('JavaScript Loaded Successfully');
 
-    const alertsData = []; // Store fetched alerts here
+    const weatherApiKey = 'YOUR_API_KEY_HERE'; // Replace with your actual OpenWeather API key
+    const weatherEndpoint = `https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&units=imperial&appid=${weatherApiKey}`;
+    
+    // Fetching weather data
+    async function fetchWeather() {
+        console.log('Fetching local weather...');
+        try {
+            const response = await fetch(weatherEndpoint);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const weatherData = await response.json();
+            console.log('Weather Data:', weatherData);
+            displayWeather(weatherData);
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+            document.getElementById('weather-info').innerHTML = 'Unable to load local weather data.';
+        }
+    }
 
+    function displayWeather(data) {
+        const weatherInfoDiv = document.getElementById('weather-info');
+        const temperature = data.main.temp;
+        const tempMin = data.main.temp_min;
+        const tempMax = data.main.temp_max;
+        const condition = data.weather[0].description;
+        const windSpeed = data.wind.speed;
+
+        weatherInfoDiv.innerHTML = `
+            <p>Temperature: ${temperature}°F (High: ${tempMax}°F, Low: ${tempMin}°F)</p>
+            <p>Condition: ${condition}</p>
+            <p>Wind Speed: ${windSpeed} mph</p>
+        `;
+    }
+
+    // Fetching weather alerts
     async function fetchWeatherAlerts() {
         console.log('Fetching weather alerts...');
         const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
@@ -13,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const xmlDoc = parser.parseFromString(textData, 'application/xml');
 
             const entries = xmlDoc.querySelectorAll('entry');
-            alertsData.length = 0; // Clear old alerts data
+            const alertsData = [];
 
             entries.forEach(entry => {
                 const title = entry.querySelector('title').textContent;
@@ -31,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             console.log('Alerts fetched:', alertsData);
-            filterAlerts('All'); // Show all alerts initially
+            renderAlerts(alertsData, 'All'); // Show all alerts initially
         } catch (error) {
             console.error('Error fetching the RSS feed:', error);
         }
@@ -44,12 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return 'others';
     }
 
-    function filterAlerts(filterType) {
+    function renderAlerts(alerts, filterType) {
         console.log('Filtering alerts for type:', filterType);
         const alertsList = document.getElementById('alerts-list');
         alertsList.innerHTML = ''; // Clear current alerts
 
-        alertsData.forEach(alert => {
+        alerts.forEach(alert => {
             if (filterType === 'All' || alert.severity === filterType.toLowerCase()) {
                 const alertElement = document.createElement('li');
                 alertElement.className = 'alert-item';
@@ -76,10 +110,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('tabs').addEventListener('click', function (event) {
         if (event.target.tagName === 'BUTTON') {
             const filterType = event.target.textContent.trim();
-            filterAlerts(filterType);
+            renderAlerts(alertsData, filterType);
         }
     });
 
-    // Fetch the weather alerts on page load
+    // Fetch the weather and alerts on page load
+    fetchWeather();
     fetchWeatherAlerts();
 });
