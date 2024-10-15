@@ -77,11 +77,6 @@ nav button:hover {
     background-color: #ff6f61;
 }
 
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
 /* Weather Info Styles */
 #weather-info {
     background-color: #2a2a2a;
@@ -167,13 +162,4 @@ footer {
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
-}
-
-/* Map Section Styles */
-#map {
-    width: 100%;
-    height: 400px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
