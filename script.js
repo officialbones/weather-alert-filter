@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log('JavaScript Loaded Successfully');
 
-    const weatherApiKey = 'YOUR_API_KEY_HERE'; // Replace with your actual OpenWeather API key
+    const weatherApiKey = '75491fbd2d99da35a5aed98142354714'; // Replace with your actual OpenWeather API key
     const weatherEndpoint = `https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&units=imperial&appid=${weatherApiKey}`;
     
     // Fetching weather data
