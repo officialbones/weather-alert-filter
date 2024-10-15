@@ -97,8 +97,11 @@ function displayAlerts(category) {
             const listItem = document.createElement('li');
             listItem.classList.add('alert-item');
 
+            // Get the appropriate icon for the category
+            const alertIcon = getAlertIcon(alert.category);
+
             const titleElem = document.createElement('h3');
-            titleElem.textContent = alert.title;
+            titleElem.textContent = `${alertIcon} ${alert.title}`;
             titleElem.classList.add('alert-title');
 
             const updatedElem = document.createElement('p');
@@ -115,6 +118,20 @@ function displayAlerts(category) {
 
             alertList.appendChild(listItem);
         });
+    }
+}
+
+// Function to get an icon based on the alert category
+function getAlertIcon(category) {
+    switch (category) {
+        case 'Warnings':
+            return '⚠️'; // Warning sign
+        case 'Watches':
+            return '👀'; // Binoculars for Watch
+        case 'Advisories':
+            return '🌡️'; // Temperature icon
+        default:
+            return 'ℹ️'; // Info icon for others
     }
 }
 
