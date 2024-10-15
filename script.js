@@ -15,13 +15,16 @@ async function fetchWeatherAlerts() {
 
         entries.forEach(entry => {
             const title = entry.querySelector('title').textContent;
-            const category = getCategory(title);
             const summary = entry.querySelector('summary').textContent;
+            const updated = entry.querySelector('updated').textContent;
+
+            const category = getCategory(title);
 
             alertsData.push({
                 title: title,
                 category: category,
-                summary: summary
+                summary: summary,
+                updated: updated
             });
         });
 
@@ -34,11 +37,11 @@ async function fetchWeatherAlerts() {
 
 // Function to determine the category based on the alert title
 function getCategory(title) {
-    if (title.includes('Warning')) {
+    if (title.toLowerCase().includes('warning')) {
         return 'Warnings';
-    } else if (title.includes('Watch')) {
+    } else if (title.toLowerCase().includes('watch')) {
         return 'Watches';
-    } else if (title.includes('Advisory')) {
+    } else if (title.toLowerCase().includes('advisory')) {
         return 'Advisories';
     } else {
         return 'Others';
@@ -58,11 +61,31 @@ function displayAlerts(category) {
     const filteredAlerts = alertsData.filter(alert => category === 'All' || alert.category === category);
 
     if (filteredAlerts.length === 0) {
-        alertList.innerHTML = `<li>No alerts found for ${category}</li>`;
+        const listItem = document.createElement('li');
+        listItem.textContent = `No alerts found for ${category}`;
+        listItem.classList.add('no-alerts');
+        alertList.appendChild(listItem);
     } else {
         filteredAlerts.forEach(alert => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${alert.title} - ${alert.summary}`;
+            listItem.classList.add('alert-item');
+
+            const titleElem = document.createElement('h3');
+            titleElem.textContent = alert.title;
+            titleElem.classList.add('alert-title');
+
+            const updatedElem = document.createElement('p');
+            updatedElem.textContent = `Updated: ${new Date(alert.updated).toLocaleString()}`;
+            updatedElem.classList.add('alert-updated');
+
+            const summaryElem = document.createElement('p');
+            summaryElem.textContent = alert.summary;
+            summaryElem.classList.add('alert-summary');
+
+            listItem.appendChild(titleElem);
+            listItem.appendChild(updatedElem);
+            listItem.appendChild(summaryElem);
+
             alertList.appendChild(listItem);
         });
     }
