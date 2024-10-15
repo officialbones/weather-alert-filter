@@ -171,8 +171,30 @@ function getAlertIcon(category) {
     }
 }
 
-// Request notification permission and fetch alerts when the page loads
+// Function to fetch the local weather forecast
+async function fetchLocalWeather() {
+    const apiKey = '75491fbd2d99da35a5aed98142354714'; // Your OpenWeatherMap API key
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&units=imperial&appid=${apiKey}`;
+
+    try {
+        const response = await fetch(weatherUrl);
+        const weatherData = await response.json();
+
+        const weatherInfoDiv = document.getElementById('weather-info');
+        weatherInfoDiv.innerHTML = `
+            <p>Temperature: ${weatherData.main.temp}°F (High: ${weatherData.main.temp_max}°F, Low: ${weatherData.main.temp_min}°F)</p>
+            <p>Condition: ${weatherData.weather[0].description}</p>
+            <p>Wind Speed: ${weatherData.wind.speed} mph</p>
+        `;
+    } catch (error) {
+        console.error('Error fetching the local weather:', error);
+        document.getElementById('weather-info').innerHTML = '<p>Unable to load local weather data.</p>';
+    }
+}
+
+// Request notification permission and fetch alerts and weather when the page loads
 window.onload = () => {
     requestNotificationPermission();
     fetchWeatherAlerts();
+    fetchLocalWeather();
 };

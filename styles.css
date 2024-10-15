@@ -48,6 +48,20 @@ nav button:hover {
     background-color: #ff483d;
 }
 
+/* Weather Widget Styles */
+#weather-widget {
+    background-color: #1a1a1a;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#weather-info {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
 /* Main Content Styles */
 #content {
     padding: 40px;
@@ -109,34 +123,6 @@ ul {
     font-size: 1em;
     line-height: 1.5;
     color: #f5f5f5;
-}
-
-/* Severity Box Styling */
-.severity-box {
-    font-size: 1em;
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 5px;
-    color: #fff;
-    margin-bottom: 15px;
-    display: inline-block;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-left: 8px solid;
-}
-
-.severity-box.warnings {
-    border-color: #ff4d4d; /* Red border for Warnings */
-    background-color: #550000; /* Dark red background */
-}
-
-.severity-box.watches {
-    border-color: #ffa64d; /* Orange border for Watches */
-    background-color: #553000; /* Dark orange background */
-}
-
-.severity-box.advisories {
-    border-color: #ffff66; /* Yellow border for Advisories */
-    background-color: #555500; /* Dark yellow background */
 }
 
 /* Footer Styles */
