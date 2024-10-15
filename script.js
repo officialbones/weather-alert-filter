@@ -1,4 +1,3 @@
-// Function to fetch and filter the weather alerts
 async function fetchWeatherAlerts() {
     const rssUrl = 'https://api.weather.gov/alerts/active.atom?point=40.4357%2C-85.01';
     try {
@@ -7,12 +6,13 @@ async function fetchWeatherAlerts() {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(textData, 'application/xml');
         
+        console.log("RSS feed fetched successfully:", xmlDoc);  // Debug log
+
         const entries = xmlDoc.querySelectorAll('entry');
         const alertList = document.getElementById('alerts-list');
         
         entries.forEach(entry => {
             const title = entry.querySelector('title').textContent;
-            // Filter for Tornado Warning or Wind Advisory
             if (title.includes('Tornado Warning') || title.includes('Wind Advisory')) {
                 const listItem = document.createElement('li');
                 listItem.textContent = title;
@@ -20,9 +20,8 @@ async function fetchWeatherAlerts() {
             }
         });
     } catch (error) {
-        console.error('Error fetching the RSS feed:', error);
+        console.error('Error fetching the RSS feed:', error);  // Debug error log
     }
 }
 
-// Run the function to get alerts when the page loads
 window.onload = fetchWeatherAlerts;
