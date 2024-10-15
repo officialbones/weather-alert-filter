@@ -18,7 +18,12 @@
     </header>
 
     <section id="content">
-        <h2>Filtered Weather Alerts</h2>
+        <nav id="tabs">
+            <button onclick="filterAlerts('Warnings')">Warnings</button>
+            <button onclick="filterAlerts('Watches')">Watches</button>
+            <button onclick="filterAlerts('Advisories')">Advisories</button>
+            <button onclick="filterAlerts('All')">All Alerts</button>
+        </nav>
         <ul id="alerts-list"></ul>
     </section>
 

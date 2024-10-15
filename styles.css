@@ -56,11 +56,25 @@ nav button:hover {
     text-align: left;
 }
 
-h2 {
-    font-size: 1.8em;
-    border-bottom: 2px solid #ff6f61;
-    padding-bottom: 10px;
-    color: #ff6f61;
+#tabs {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#tabs button {
+    background-color: #4a4a4a;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 1em;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#tabs button:hover {
+    background-color: #ff6f61;
 }
 
 ul {
