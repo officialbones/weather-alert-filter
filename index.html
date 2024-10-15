@@ -3,11 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Alerts</title>
+    <title>Weather Alerts - Jay County News & Information</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>All Weather Alerts</h1>
-    <ul id="alerts-list"></ul>
+    <header>
+        <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
+        <h1>Jay County News & Information</h1>
+        <nav>
+            <button onclick="location.reload()">Refresh Alerts</button>
+            <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
+            <button onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
+        </nav>
+    </header>
+
+    <section id="content">
+        <h2>Filtered Weather Alerts</h2>
+        <ul id="alerts-list"></ul>
+    </section>
+
+    <footer>
+        <p>Jay County News & Information &copy; 2024</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
