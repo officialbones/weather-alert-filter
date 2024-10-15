@@ -51,7 +51,7 @@ nav button:hover {
 /* Main Content Styles */
 #content {
     padding: 40px;
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
     text-align: left;
 }
@@ -77,28 +77,14 @@ nav button:hover {
     background-color: #ff6f61;
 }
 
-/* Weather Info Styles */
-#weather-info {
-    background-color: #2a2a2a;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #5bc0de;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    text-align: left;
+ul {
+    list-style-type: none;
+    padding-left: 0;
 }
 
-#weather-info p {
-    margin: 0;
-    font-size: 1.2em;
-    color: #ddd;
-    margin-bottom: 10px;
-}
-
-/* Alerts Section Styles */
-.alert-item {
+ul li {
     background-color: #2a2a2a;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #ff6f61;
@@ -135,24 +121,19 @@ nav button:hover {
     text-align: center;
 }
 
-.severity-box.warning {
-    background-color: #d9534f;
+.severity-box.warnings {
+    background-color: #d9534f; /* Red for Warnings */
     border: 1px solid #b52b27;
 }
 
-.severity-box.watch {
-    background-color: #f0ad4e;
+.severity-box.watches {
+    background-color: #f0ad4e; /* Orange for Watches */
     border: 1px solid #d0871a;
 }
 
-.severity-box.advisory {
-    background-color: #5bc0de;
-    border: 1px solid #46a2c2;
-}
-
-.severity-box.other {
-    background-color: #5cb85c;
-    border: 1px solid #4a9c4a;
+.severity-box.advisories {
+    background-color: #f7e72a; /* Yellow for Advisories */
+    border: 1px solid #b5a91a;
 }
 
 /* Footer Styles */
@@ -162,4 +143,21 @@ footer {
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
+}
+
+/* Weather Info Styles */
+#weather-info {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #5bc0de;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#weather-info p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #ddd;
+    margin-bottom: 10px;
 }
