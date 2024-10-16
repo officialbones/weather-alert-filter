@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("JavaScript Loaded Successfully");
-    
-    // Function to fetch and display weather alerts
-    fetchWeatherAlerts();
 
-    // Function to fetch local weather data
+    // Show loading spinner
+    document.getElementById('loading-spinner').style.display = 'block';
+    
+    // Fetch and display weather alerts and data
+    fetchWeatherAlerts();
     fetchWeatherData();
 });
 
 // Function to fetch weather alerts
 function fetchWeatherAlerts() {
     console.log("Fetching weather alerts...");
-    // Assuming you have an API to get alerts or you have them hardcoded
     const alerts = [
         {
             type: 'Warnings',
@@ -20,13 +20,13 @@ function fetchWeatherAlerts() {
             description: '* WHAT...Sub-freezing temperatures as low as 30 expected. * WHERE...Portions of northern Indiana, southwest Michigan, and northwest Ohio. * WHEN...From 2 AM to 9 AM EDT Wednesday. * IMPACTS...Frost and freeze conditions could kill crops, other sensitive vegetation and possibly damage unprotected outdoor plumbing.'
         }
     ];
-    console.log("Alerts fetched:", alerts);
-    filterAlerts('All', alerts); // Display all alerts by default
+    filterAlerts('All', alerts);
+    // Hide loading spinner after data is loaded
+    document.getElementById('loading-spinner').style.display = 'none';
 }
 
 // Function to filter alerts by type
 function filterAlerts(alertType, alerts) {
-    console.log(`Filtering alerts for type: ${alertType}`);
     const alertsList = document.getElementById("alerts-list");
     alertsList.innerHTML = ''; // Clear the current list
 
@@ -70,12 +70,13 @@ function fetchWeatherData() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log("Weather data fetched successfully:", data);
             displayWeatherData(data);
+            document.getElementById('loading-spinner').style.display = 'none';  // Hide spinner once data is loaded
         })
         .catch(error => {
             console.error("Error fetching weather data:", error);
-            document.getElementById('weather-info').innerHTML = 'Unable to load local weather data.';
+            document.getElementById('weather-info').innerHTML = 'Unable to load local weather data. Please try again later.';
+            document.getElementById('loading-spinner').style.display = 'none';  // Hide spinner on error
         });
 }
 

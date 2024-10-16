@@ -1,7 +1,7 @@
 /* General Styles */
 body {
-    background-color: #121212; /* Dark background */
-    color: #f5f5f5; /* Light text for contrast */
+    background-color: #121212;
+    color: #f5f5f5;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -123,38 +123,6 @@ nav button:hover {
     color: #ddd;
 }
 
-/* Severity Box Styles */
-.severity-box {
-    padding: 8px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    border-radius: 5px;
-    color: #fff;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    display: inline-block;
-    text-align: center;
-}
-
-.severity-box.warning {
-    background-color: #d9534f;
-    border: 1px solid #b52b27;
-}
-
-.severity-box.watch {
-    background-color: #f0ad4e;
-    border: 1px solid #d0871a;
-}
-
-.severity-box.advisory {
-    background-color: #5bc0de;
-    border: 1px solid #46a2c2;
-}
-
-.severity-box.other {
-    background-color: #5cb85c;
-    border: 1px solid #4a9c4a;
-}
-
 /* Footer Styles */
 footer {
     background-color: #1a1a1a;
@@ -162,4 +130,28 @@ footer {
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
+}
+
+/* Loading Spinner Styles */
+#loading-spinner {
+    text-align: center;
+    color: #ff6f61;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 600px) {
+    header, #content, footer {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    nav button {
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
 }

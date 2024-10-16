@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stay updated with the latest weather alerts and news from Jay County.">
+    <meta name="keywords" content="Jay County, weather alerts, local news, freeze warning, wind advisory">
     <title>Weather Alerts - Jay County News & Information</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,20 +13,21 @@
         <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
         <h1>Jay County News & Information</h1>
         <nav>
-            <button onclick="location.reload()">Refresh Alerts</button>
-            <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
-            <button onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
+            <button onclick="location.reload()" aria-label="Refresh weather alerts">Refresh Alerts</button>
+            <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'" aria-label="Visit our Facebook page">Facebook</button>
+            <button onclick="window.location.href='https://twitter.com/yourpage'" aria-label="Visit our Twitter page">Twitter</button>
         </nav>
     </header>
 
     <section id="content">
+        <div id="loading-spinner" style="display: none;">Loading...</div>
         <nav id="tabs">
             <button onclick="filterAlerts('Warnings')">Warnings</button>
             <button onclick="filterAlerts('Watches')">Watches</button>
             <button onclick="filterAlerts('Advisories')">Advisories</button>
             <button onclick="filterAlerts('All')">All Alerts</button>
         </nav>
-        
+
         <div id="weather-info">
             <!-- Weather information will be loaded here -->
         </div>
@@ -38,6 +41,6 @@
     <footer>
         <p>Jay County News & Information &copy; 2024</p>
     </footer>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
