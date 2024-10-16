@@ -1,43 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Alerts - Jay County News & Information</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="jcni.jpg">
+  <title>Jay County News & Information</title>
+  <script type="module">
+    // Firebase Integration
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
+      authDomain: "jcni-webpage.firebaseapp.com",
+      projectId: "jcni-webpage",
+      storageBucket: "jcni-webpage.appspot.com",
+      messagingSenderId: "62856501328",
+      appId: "1:62856501328:web:86df1e0a0477671e501955",
+      measurementId: "G-PSP0FWZQZL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const messaging = getMessaging(app);
+
+    function signUp(email, password) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log("Sign Up Successful", userCredential.user);
+        })
+        .catch((error) => {
+          console.error("Sign Up Error", error);
+        });
+    }
+
+    function signIn(email, password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log("Sign In Successful", userCredential.user);
+        })
+        .catch((error) => {
+          console.error("Sign In Error", error);
+        });
+    }
+
+    function logOut() {
+      signOut(auth)
+        .then(() => {
+          console.log("User logged out");
+        })
+        .catch((error) => {
+          console.error("Sign Out Error", error);
+        });
+    }
+
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        getToken(messaging, { vapidKey: 'YOUR_PUBLIC_VAPID_KEY' }).then((currentToken) => {
+          if (currentToken) {
+            console.log('Token received:', currentToken);
+          } else {
+            console.warn('No registration token available.');
+          }
+        }).catch((err) => {
+          console.error('Error retrieving token:', err);
+        });
+      } else {
+        console.warn('Notification permission denied');
+      }
+    });
+
+    onMessage(messaging, (payload) => {
+      console.log('Message received:', payload);
+    });
+  </script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <header>
-        <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
-        <h1>Jay County News & Information</h1>
-        <nav>
-            <button onclick="location.reload()">Refresh Alerts</button>
-            <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
-            <button onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
-        </nav>
-    </header>
+  <header>
+    <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
+    <h1>Jay County News & Information</h1>
+    <nav>
+      <button onclick="location.reload()">Refresh Alerts</button>
+      <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
+      <button onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
+    </nav>
+  </header>
 
-    <section id="content">
-        <nav id="tabs">
-            <button onclick="filterAlerts('Warnings')">Warnings</button>
-            <button onclick="filterAlerts('Watches')">Watches</button>
-            <button onclick="filterAlerts('Advisories')">Advisories</button>
-            <button onclick="filterAlerts('All')">All Alerts</button>
-        </nav>
-        
-        <div id="weather-info">
-            <!-- Weather information will be loaded here -->
-        </div>
+  <section id="content">
+    <nav id="tabs">
+      <button class="warnings" onclick="filterAlerts('Warnings')">Warnings</button>
+      <button class="watches" onclick="filterAlerts('Watches')">Watches</button>
+      <button class="advisories" onclick="filterAlerts('Advisories')">Advisories</button>
+      <button class="all-alerts" onclick="filterAlerts('All')">All Alerts</button>
+    </nav>
+    <div id="weather-info"></div>
+    <ul id="alerts-list"></ul>
+  </section>
 
-        <section id="alerts">
-            <h2>Active Weather Alerts</h2>
-            <div id="alerts-list"></div>
-        </section>
-    </section>
-
-    <footer>
-        <p>Jay County News & Information &copy; 2024</p>
-    </footer>
-    <script src="script.js"></script>
+  <footer>
+    <p>Jay County News & Information &copy; 2024</p>
+  </footer>
 </body>
 </html>

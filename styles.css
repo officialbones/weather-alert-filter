@@ -1,38 +1,38 @@
 /* General Styles */
 body {
-    background-color: #121212; /* Dark background */
-    color: #f5f5f5; /* Light text for contrast */
+    background-color: #121212;
+    color: #f5f5f5;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-}
-
-/* Header Styles */
-header {
+  }
+  
+  /* Header Styles */
+  header {
     background-color: #1a1a1a;
     padding: 20px;
     text-align: center;
     border-bottom: 3px solid #333;
-}
-
-#logo {
+  }
+  
+  #logo {
     width: 100px;
     height: auto;
     display: block;
     margin: 0 auto 10px auto;
-}
-
-h1 {
+  }
+  
+  h1 {
     font-size: 2.5em;
     margin: 0;
     color: #ffffff;
-}
-
-nav {
+  }
+  
+  nav {
     margin-top: 10px;
-}
-
-nav button {
+  }
+  
+  nav button {
     background-color: #ff6f61;
     border: none;
     padding: 10px 20px;
@@ -42,26 +42,26 @@ nav button {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-}
-
-nav button:hover {
-    background-color: #ff483d;
-}
-
-/* Main Content Styles */
-#content {
+  }
+  
+  nav button:hover {
+    opacity: 0.8;
+  }
+  
+  /* Main Content Styles */
+  #content {
     padding: 40px;
     max-width: 800px;
     margin: 0 auto;
     text-align: left;
-}
-
-#tabs {
+  }
+  
+  #tabs {
     text-align: center;
     margin-bottom: 20px;
-}
-
-#tabs button {
+  }
+  
+  #tabs button {
     background-color: #4a4a4a;
     border: none;
     padding: 10px 15px;
@@ -71,46 +71,58 @@ nav button:hover {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-}
-
-#tabs button:hover {
-    background-color: #ff6f61;
-}
-
-ul {
+  }
+  
+  #tabs button.warnings {
+    background-color: #d9534f;
+  }
+  
+  #tabs button.watches {
+    background-color: #f0ad4e;
+  }
+  
+  #tabs button.advisories {
+    background-color: #ffdf7e;
+  }
+  
+  #tabs button.all-alerts {
+    background-color: #4a4a4a;
+  }
+  
+  ul {
     list-style-type: none;
     padding-left: 0;
-}
-
-ul li {
+  }
+  
+  ul li {
     background-color: #2a2a2a;
     margin-bottom: 15px;
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #ff6f61;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.alert-item h3 {
+  }
+  
+  .alert-item h3 {
     margin: 0;
     font-size: 1.5em;
     color: #ff6f61;
-}
-
-.alert-updated {
+  }
+  
+  .alert-updated {
     font-size: 0.9em;
     color: #bbb;
     margin-top: 5px;
-}
-
-.alert-summary {
+  }
+  
+  .alert-summary {
     font-size: 1em;
     margin-top: 10px;
     color: #ddd;
-}
-
-/* Severity Box Styles */
-.severity-box {
+  }
+  
+  /* Severity Box Styles */
+  .severity-box {
     padding: 8px;
     margin-bottom: 15px;
     font-weight: bold;
@@ -119,45 +131,45 @@ ul li {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     display: inline-block;
     text-align: center;
-}
-
-.severity-box.warnings {
-    background-color: #d9534f; /* Red for Warnings */
+  }
+  
+  .severity-box.warnings {
+    background-color: #d9534f;
     border: 1px solid #b52b27;
-}
-
-.severity-box.watches {
-    background-color: #f0ad4e; /* Orange for Watches */
+  }
+  
+  .severity-box.watches {
+    background-color: #f0ad4e;
     border: 1px solid #d0871a;
-}
-
-.severity-box.advisories {
-    background-color: #f7e72a; /* Yellow for Advisories */
-    border: 1px solid #b5a91a;
-}
-
-/* Footer Styles */
-footer {
+  }
+  
+  .severity-box.advisories {
+    background-color: #ffdf7e;
+    border: 1px solid #ffc107;
+  }
+  
+  /* Footer Styles */
+  footer {
     background-color: #1a1a1a;
     padding: 20px;
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
-}
-
-/* Weather Info Styles */
-#weather-info {
+  }
+  
+  /* Weather Info Styles */
+  .weather-box {
     background-color: #2a2a2a;
     padding: 20px;
     border-radius: 5px;
     margin-bottom: 20px;
     border: 1px solid #5bc0de;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-#weather-info p {
+  }
+  
+  .weather-box p {
     margin: 0;
     font-size: 1.1em;
     color: #ddd;
     margin-bottom: 10px;
-}
+  }
