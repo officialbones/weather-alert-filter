@@ -29,7 +29,7 @@
     const messaging = firebase.messaging();
 
     // Firebase Authentication Functions
-    window.signUp = (email, password) => {
+    function signUp(email, password) {
       auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           alert("Sign Up Successful");
@@ -41,7 +41,7 @@
         });
     }
 
-    window.signIn = (email, password) => {
+    function signIn(email, password) {
       auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           alert("Sign In Successful");
@@ -53,7 +53,7 @@
         });
     }
 
-    window.logOut = () => {
+    function logOut() {
       auth.signOut()
         .then(() => {
           alert("User logged out");
@@ -85,6 +85,18 @@
     messaging.onMessage((payload) => {
       console.log('Message received:', payload);
     });
+
+    // Registering the Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then((registration) => {
+          console.log('Service Worker registered with scope:', registration.scope);
+          messaging.useServiceWorker(registration);
+        })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error);
+        });
+    }
   </script>
   <script defer src="script.js"></script>
 </head>
