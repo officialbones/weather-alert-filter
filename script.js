@@ -27,6 +27,13 @@ function fetchWeatherAlerts() {
 
 // Function to filter alerts by type
 function filterAlerts(alertType, alerts) {
+    if (!alerts || alerts.length === 0) {
+        console.log("No alerts available to filter.");
+        document.getElementById("alerts-list").innerHTML = '<p>No weather alerts to display.</p>';
+        return;
+    }
+
+    console.log(`Filtering alerts for type: ${alertType}`);
     const alertsList = document.getElementById("alerts-list");
     alertsList.innerHTML = ''; // Clear the current list
 
@@ -58,6 +65,7 @@ function filterAlerts(alertType, alerts) {
         }
     });
 }
+
 
 // Function to fetch local weather data
 function fetchWeatherData() {
