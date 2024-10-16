@@ -1,159 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="jcni.jpg">
-  <title>Jay County News & Information</title>
-  <!-- Firebase App (the core Firebase SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="jcni.jpg">
+    <title>Jay County News & Information</title>
+    
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js"></script>
+    
+    <script>
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
+        authDomain: "jcni-webpage.firebaseapp.com",
+        projectId: "jcni-webpage",
+        storageBucket: "jcni-webpage.appspot.com",
+        messagingSenderId: "62856501328",
+        appId: "1:62856501328:web:86df1e0a0477671e501955",
+        measurementId: "G-PSP0FWZQZL"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const messaging = firebase.messaging();
   
-  <script>
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
-      authDomain: "jcni-webpage.firebaseapp.com",
-      projectId: "jcni-webpage",
-      storageBucket: "jcni-webpage.appspot.com",
-      messagingSenderId: "62856501328",
-      appId: "1:62856501328:web:86df1e0a0477671e501955",
-      measurementId: "G-PSP0FWZQZL"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const messaging = firebase.messaging();
-
-    // Firebase Authentication Functions
-    function signUp(email, password) {
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          console.log("Sign Up Successful", userCredential.user);
-          alert("Sign Up Successful!");
-        })
-        .catch((error) => {
-          console.error("Sign Up Error", error);
-          alert("Sign Up Error: " + error.message);
-        });
-    }
-
-    function signIn(email, password) {
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          console.log("Sign In Successful", userCredential.user);
-          alert("Sign In Successful!");
-        })
-        .catch((error) => {
-          console.error("Sign In Error", error);
-          alert("Sign In Error: " + error.message);
-        });
-    }
-
-    function logOut() {
-      auth.signOut()
-        .then(() => {
-          console.log("User logged out");
-          alert("User logged out");
-        })
-        .catch((error) => {
-          console.error("Sign Out Error", error);
-          alert("Sign Out Error: " + error.message);
-        });
-    }
-
-    // Firebase Cloud Messaging for Notifications
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        messaging.getToken({ vapidKey: 'BKrKw--JiJbB8S5DTKTUaTM71h8C4CGOMfCQ92n_kFRK5-XJuvDo7BOqF5oov_eIOUR9Rc3-azq8dxGvothIjwk' })
-          .then((currentToken) => {
-            if (currentToken) {
-              console.log('Token received:', currentToken);
-            } else {
-              console.warn('No registration token available.');
-            }
+      // Firebase Authentication Functions
+      function signUp(email, password) {
+        auth.createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            console.log("Sign Up Successful", userCredential.user);
+            alert("Sign Up Successful!");
           })
-          .catch((err) => {
-            console.error('Error retrieving token:', err);
+          .catch((error) => {
+            console.error("Sign Up Error", error);
+            alert("Sign Up Error: " + error.message);
           });
-      } else {
-        console.warn('Notification permission denied');
       }
-    });
-
-    messaging.onMessage((payload) => {
-      console.log('Message received:', payload);
-      // You can add custom logic to display notification
-    });
-
-    // Registering the Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/firebase-messaging-sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
-          messaging.useServiceWorker(registration);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-  </script>
-  <script defer src="script.js"></script>
-</head>
-
-<body>
-  <header>
-    <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
-    <h1>Jay County News & Information</h1>
-    <nav>
-      <button onclick="location.reload()">Refresh Alerts</button>
-      <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
-      <button onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
-    </nav>
-    <div id="auth-buttons">
-      <button onclick="signInPrompt()">Sign In</button>
-      <button onclick="signUpPrompt()">Sign Up</button>
-      <button onclick="logOut()">Log Out</button>
-    </div>
-  </header>
-
-  <section id="content">
-    <nav id="tabs">
-      <button class="warnings" onclick="filterAlerts('Warnings')">Warnings</button>
-      <button class="watches" onclick="filterAlerts('Watches')">Watches</button>
-      <button class="advisories" onclick="filterAlerts('Advisories')">Advisories</button>
-      <button class="all-alerts" onclick="filterAlerts('All')">All Alerts</button>
-    </nav>
-    <div id="weather-info"></div>
-    <ul id="alerts-list"></ul>
-  </section>
-
-  <footer>
-    <p>Jay County News & Information &copy; 2024</p>
-  </footer>
-
-  <script>
-    function signInPrompt() {
-      const email = prompt("Enter your email:");
-      const password = prompt("Enter your password:");
-      if (email && password) {
-        signIn(email, password);
+  
+      function signIn(email, password) {
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            console.log("Sign In Successful", userCredential.user);
+            alert("Sign In Successful!");
+          })
+          .catch((error) => {
+            console.error("Sign In Error", error);
+            alert("Sign In Error: " + error.message);
+          });
       }
-    }
-
-    function signUpPrompt() {
-      const email = prompt("Enter your email:");
-      const password = prompt("Enter your password:");
-      if (email && password) {
-        signUp(email, password);
+  
+      function logOut() {
+        auth.signOut()
+          .then(() => {
+            console.log("User logged out");
+            alert("User logged out");
+          })
+          .catch((error) => {
+            console.error("Sign Out Error", error);
+            alert("Sign Out Error: " + error.message);
+          });
       }
-    }
-  </script>
-</body>
-
-</html>
+  
+      // Firebase Cloud Messaging for Notifications
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          messaging.getToken({ vapidKey: 'BKrKw--JiJbB8S5DTKTUaTM71h8C4CGOMfCQ92n_kFRK5-XJuvDo7BOqF5oov_eIOUR9Rc3-azq8dxGvothIjwk' })
+            .then((currentToken) => {
+              if (currentToken) {
+                console.log('Token received:', currentToken);
+              } else {
+                console.warn('No registration token available.');
+              }
+            })
+            .catch((err) => {
+              console.error('Error retrieving token:', err);
+            });
+        } else {
+          console.warn('Notification permission denied');
+        }
+      });
+  
+      messaging.onMessage((payload) => {
+        console.log('Message received:', payload);
+        // Custom logic to handle the received message
+      });
+  
+      // Registering the Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope);
+            messaging.useServiceWorker(registration);
+          })
+          .catch((error) => {
+            console.error('Service Worker registration failed:', error);
+          });
+      }
+    </script>
+    <script defer src="script.js"></script>
+  </head>
+  
