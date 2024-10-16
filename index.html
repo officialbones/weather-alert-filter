@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,43 +24,52 @@
       measurementId: "G-PSP0FWZQZL"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const messaging = getMessaging(app);
 
-    function signUp(email, password) {
+    // Firebase Authentication Functions
+    window.signUp = (email, password) => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          alert("Sign Up Successful");
           console.log("Sign Up Successful", userCredential.user);
         })
         .catch((error) => {
+          alert("Sign Up Error: " + error.message);
           console.error("Sign Up Error", error);
         });
     }
 
-    function signIn(email, password) {
+    window.signIn = (email, password) => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          alert("Sign In Successful");
           console.log("Sign In Successful", userCredential.user);
         })
         .catch((error) => {
+          alert("Sign In Error: " + error.message);
           console.error("Sign In Error", error);
         });
     }
 
-    function logOut() {
+    window.logOut = () => {
       signOut(auth)
         .then(() => {
+          alert("User logged out");
           console.log("User logged out");
         })
         .catch((error) => {
+          alert("Sign Out Error: " + error.message);
           console.error("Sign Out Error", error);
         });
     }
 
+    // Firebase Cloud Messaging for Notifications
     Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
-        getToken(messaging, { vapidKey: 'YOUR_PUBLIC_VAPID_KEY' }).then((currentToken) => {
+        getToken(messaging, { vapidKey: 'BKrKw--JiJbB8S5DTKTUaTM71h8C4CGOMfCQ92n_kFRK5-XJuvDo7BOqF5oov_eIOUR9Rc3-azq8dxGvothIjwk' }).then((currentToken) => {
           if (currentToken) {
             console.log('Token received:', currentToken);
           } else {
@@ -79,6 +89,7 @@
   </script>
   <script defer src="script.js"></script>
 </head>
+
 <body>
   <header>
     <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
@@ -88,6 +99,11 @@
       <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
       <button onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
     </nav>
+    <div id="auth-buttons">
+      <button onclick="signInPrompt()">Sign In</button>
+      <button onclick="signUpPrompt()">Sign Up</button>
+      <button onclick="logOut()">Log Out</button>
+    </div>
   </header>
 
   <section id="content">
@@ -104,5 +120,24 @@
   <footer>
     <p>Jay County News & Information &copy; 2024</p>
   </footer>
+
+  <script>
+    function signInPrompt() {
+      const email = prompt("Enter your email:");
+      const password = prompt("Enter your password:");
+      if (email && password) {
+        signIn(email, password);
+      }
+    }
+
+    function signUpPrompt() {
+      const email = prompt("Enter your email:");
+      const password = prompt("Enter your password:");
+      if (email && password) {
+        signUp(email, password);
+      }
+    }
+  </script>
 </body>
+
 </html>

@@ -1,85 +1,72 @@
-// Fetch and display weather information
-function fetchWeather() {
-    const weatherInfo = document.getElementById('weather-info');
-    weatherInfo.innerHTML = 'Loading local weather...';
-  
-    fetch('https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&units=imperial&appid=75491fbd2d99da35a5aed98142354714')
-      .then(response => response.json())
-      .then(data => {
-        weatherInfo.innerHTML = `
-          <div class="weather-box">
-            <p>Temperature: ${data.main.temp}°F (High: ${data.main.temp_max}°F, Low: ${data.main.temp_min}°F)</p>
-            <p>Condition: ${data.weather[0].description}</p>
-            <p>Wind Speed: ${data.wind.speed} mph</p>
-          </div>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js";
+
+const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "jcni-webpage.firebaseapp.com",
+    projectId: "jcni-webpage",
+    storageBucket: "jcni-webpage.appspot.com",
+    messagingSenderId: "62856501328",
+    appId: "1:62856501328:web:86df1e0a0477671e501955",
+    measurementId: "G-PSP0FWZQZL"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+
+// Fetching local weather
+const weatherApiKey = "YOUR_OPENWEATHER_API_KEY";
+async function fetchWeather() {
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&units=imperial&appid=${weatherApiKey}`);
+        const weatherData = await response.json();
+        document.getElementById("weather-info").innerHTML = `
+            <p>Temperature: ${weatherData.main.temp}°F (High: ${weatherData.main.temp_max}°F, Low: ${weatherData.main.temp_min}°F)</p>
+            <p>Condition: ${weatherData.weather[0].description}</p>
+            <p>Wind Speed: ${weatherData.wind.speed} mph</p>
         `;
-      })
-      .catch(error => {
-        weatherInfo.innerHTML = 'Unable to load local weather data.';
-        console.error('Weather data fetch error:', error);
-      });
-  }
-  
-  // Fetch weather alerts data
-  let alerts = [];
-  function fetchAlerts() {
-    fetch('https://api.weatherapi.com/v1/alerts.json?key=YOUR_API_KEY&lat=40.4357&lon=-85.01')
-      .then(response => response.json())
-      .then(data => {
-        alerts = data.alerts;
-        console.log('Alerts fetched:', alerts);
-        displayAlerts(alerts);
-      })
-      .catch(error => {
-        console.error('Error fetching alerts:', error);
-      });
-  }
-  
-  // Filter alerts by type
-  function filterAlerts(alertType) {
-    console.log(`Filtering alerts for type: ${alertType}`);
-    if (!alerts || alerts.length === 0) {
-      console.error("No alerts data found");
-      return;
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        document.getElementById("weather-info").innerHTML = "Unable to load local weather data.";
     }
-    const filteredAlerts = alertType === 'All' ? alerts : alerts.filter(alert => alert.type === alertType);
-    displayAlerts(filteredAlerts);
-  }
-  
-  // Display alerts
-  function displayAlerts(alertsToDisplay) {
-    const alertsList = document.getElementById('alerts-list');
-    alertsList.innerHTML = '';
-  
-    alertsToDisplay.forEach(alert => {
-      const alertElement = document.createElement('li');
-      alertElement.classList.add('alert-item');
-  
-      const severityBox = document.createElement('div');
-      severityBox.classList.add('severity-box', alert.type.toLowerCase());
-      severityBox.textContent = `Severity: ${alert.type}`;
-      alertElement.appendChild(severityBox);
-  
-      const alertTitle = document.createElement('h3');
-      alertTitle.textContent = alert.title;
-      alertElement.appendChild(alertTitle);
-  
-      const alertUpdated = document.createElement('div');
-      alertUpdated.classList.add('alert-updated');
-      alertUpdated.textContent = `Updated: ${alert.updated}`;
-      alertElement.appendChild(alertUpdated);
-  
-      const alertSummary = document.createElement('div');
-      alertSummary.classList.add('alert-summary');
-      alertSummary.textContent = alert.description;
-      alertElement.appendChild(alertSummary);
-  
-      alertsList.appendChild(alertElement);
+}
+fetchWeather();
+
+// Fetching weather alerts
+const alertsApiKey = "YOUR_OPENWEATHER_API_KEY";
+async function fetchAlerts() {
+    try {
+        const response = await fetch(`https://api.weatherapi.com/v1/alerts.json?key=${alertsApiKey}&q=40.4357,-85.01`);
+        const alertData = await response.json();
+        console.log("Alerts fetched:", alertData);
+        filterAlerts('All', alertData.alert);
+    } catch (error) {
+        console.error("Error fetching alerts:", error);
+    }
+}
+fetchAlerts();
+
+function filterAlerts(alertType, alerts = []) {
+    console.log(`Filtering alerts for type: ${alertType}`);
+    const alertsList = document.getElementById("alerts-list");
+    alertsList.innerHTML = "";
+
+    if (!alerts.length) {
+        alertsList.innerHTML = "No active alerts.";
+        return;
+    }
+
+    alerts.forEach(alert => {
+        if (alertType === "All" || alert.event === alertType) {
+            const alertItem = document.createElement("div");
+            alertItem.classList.add("alert-item");
+            alertItem.innerHTML = `
+                <div class="severity-box ${alertType.toLowerCase()}">Severity: ${alert.event}</div>
+                <h3>${alert.event} issued ${alert.start}</h3>
+                <p>${alert.desc}</p>
+            `;
+            alertsList.appendChild(alertItem);
+        }
     });
-  }
-  
-  // Initial load
-  window.addEventListener('load', () => {
-    fetchWeather();
-    fetchAlerts();
-  });
+}
