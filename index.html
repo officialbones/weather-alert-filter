@@ -8,11 +8,13 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="jcni.jpg">
   <title>Jay County News & Information</title>
+  <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js"></script>
+  
   <script>
-    // Firebase Integration
+    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
       authDomain: "jcni-webpage.firebaseapp.com",
@@ -32,51 +34,53 @@
     function signUp(email, password) {
       auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          alert("Sign Up Successful");
           console.log("Sign Up Successful", userCredential.user);
+          alert("Sign Up Successful!");
         })
         .catch((error) => {
-          alert("Sign Up Error: " + error.message);
           console.error("Sign Up Error", error);
+          alert("Sign Up Error: " + error.message);
         });
     }
 
     function signIn(email, password) {
       auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          alert("Sign In Successful");
           console.log("Sign In Successful", userCredential.user);
+          alert("Sign In Successful!");
         })
         .catch((error) => {
-          alert("Sign In Error: " + error.message);
           console.error("Sign In Error", error);
+          alert("Sign In Error: " + error.message);
         });
     }
 
     function logOut() {
       auth.signOut()
         .then(() => {
-          alert("User logged out");
           console.log("User logged out");
+          alert("User logged out");
         })
         .catch((error) => {
-          alert("Sign Out Error: " + error.message);
           console.error("Sign Out Error", error);
+          alert("Sign Out Error: " + error.message);
         });
     }
 
     // Firebase Cloud Messaging for Notifications
     Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
-        messaging.getToken({ vapidKey: 'BKrKw--JiJbB8S5DTKTUaTM71h8C4CGOMfCQ92n_kFRK5-XJuvDo7BOqF5oov_eIOUR9Rc3-azq8dxGvothIjwk' }).then((currentToken) => {
-          if (currentToken) {
-            console.log('Token received:', currentToken);
-          } else {
-            console.warn('No registration token available.');
-          }
-        }).catch((err) => {
-          console.error('Error retrieving token:', err);
-        });
+        messaging.getToken({ vapidKey: 'BKrKw--JiJbB8S5DTKTUaTM71h8C4CGOMfCQ92n_kFRK5-XJuvDo7BOqF5oov_eIOUR9Rc3-azq8dxGvothIjwk' })
+          .then((currentToken) => {
+            if (currentToken) {
+              console.log('Token received:', currentToken);
+            } else {
+              console.warn('No registration token available.');
+            }
+          })
+          .catch((err) => {
+            console.error('Error retrieving token:', err);
+          });
       } else {
         console.warn('Notification permission denied');
       }
@@ -84,6 +88,7 @@
 
     messaging.onMessage((payload) => {
       console.log('Message received:', payload);
+      // You can add custom logic to display notification
     });
 
     // Registering the Service Worker
