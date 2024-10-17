@@ -6,16 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const customAlertMessage = document.getElementById('custom-alert-message');
     const customAlert = document.getElementById('custom-alert');
     
-    const postAlertSection = document.getElementById('post-alert');
-    const pinSection = document.getElementById('pin-section');
-    const pinForm = document.getElementById('pin-form');
-    const pinInput = document.getElementById('pin-input');
-    const pinError = document.getElementById('pin-error');
-
+    const alertPopup = document.getElementById('alert-popup');
+    const adminButton = document.getElementById('admin-button');
+    const closePopupButton = document.getElementById('close-popup');
     const customAlertForm = document.getElementById('custom-alert-form');
-    
-    // Sample PIN for the protected section (change this for real use)
-    const correctPIN = '1234';
 
     // Fetch and display weather alerts and data
     fetchWeatherAlerts();
@@ -24,19 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load stored custom alert from localStorage (if any)
     loadStoredCustomAlert();
 
-    // Handle PIN submission
-    pinForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const enteredPIN = pinInput.value;
+    // Handle admin button click to show alert form popup
+    adminButton.addEventListener('click', () => {
+        alertPopup.style.display = 'block';
+    });
 
-        if (enteredPIN === correctPIN) {
-            // Show the post alert section if the PIN is correct
-            postAlertSection.style.display = 'block';
-            pinSection.style.display = 'none';
-        } else {
-            // Show error if PIN is incorrect
-            pinError.style.display = 'block';
-        }
+    // Close the popup when 'Close' button is clicked
+    closePopupButton.addEventListener('click', () => {
+        alertPopup.style.display = 'none';
     });
 
     // Handle custom alert form submission
@@ -51,6 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Store custom alert in localStorage
         localStorage.setItem('customAlertMessage', message);
         localStorage.setItem('customAlertSeverity', severity);
+
+        // Close the popup
+        alertPopup.style.display = 'none';
     });
 });
 

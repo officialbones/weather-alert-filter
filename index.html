@@ -14,6 +14,14 @@
 </head>
 <body class="bg-dark text-light">
 
+    <!-- Custom alert display section (moved to top) -->
+    <section id="custom-alert-section" style="display: none;">
+        <div id="custom-alert" class="alert-item mb-4">
+            <h3 id="custom-alert-title"></h3>
+            <p id="custom-alert-message"></p>
+        </div>
+    </section>
+
     <!-- Header -->
     <header class="bg-dark text-light text-center py-3 mb-4">
         <img src="jcni.jpg" alt="Jay County News & Information Logo" class="img-fluid mb-2" style="width: 80px;">
@@ -62,22 +70,8 @@
             </div>
         </div>
 
-        <!-- Custom Alert Section (PIN-protected) -->
-        <section id="pin-section" class="mb-4">
-            <div class="card bg-dark text-light">
-                <div class="card-body">
-                    <h5 class="card-title">Enter PIN to Access Admin Section</h5>
-                    <form id="pin-form">
-                        <input type="password" id="pin-input" class="form-control bg-dark text-light" placeholder="Enter PIN" required>
-                        <button type="submit" class="btn btn-primary mt-2">Submit</button>
-                        <p id="pin-error" class="text-danger" style="display: none;">Incorrect PIN</p>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Form to post custom alert (admin-only section) -->
-        <section id="post-alert" style="display: none;">
+        <!-- Form to post custom alert (popup will be triggered by admin button) -->
+        <div id="alert-popup" class="alert-popup" style="display: none;">
             <div class="card bg-dark text-light mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Post a Custom Alert</h5>
@@ -95,22 +89,17 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Post Alert</button>
+                        <button type="button" id="close-popup" class="btn btn-secondary">Close</button>
                     </form>
                 </div>
             </div>
-        </section>
-
-        <!-- Custom alert display section -->
-        <section id="custom-alert-section" style="display: none;">
-            <div id="custom-alert" class="alert-item mb-4">
-                <h3 id="custom-alert-title"></h3>
-                <p id="custom-alert-message"></p>
-            </div>
-        </section>
+        </div>
     </div>
 
     <footer class="bg-dark text-light text-center py-3">
         <p>Jay County News & Information &copy; 2024</p>
+        <!-- Admin button for posting alerts -->
+        <button id="admin-button" class="btn btn-outline-light" style="position: absolute; right: 20px; bottom: 20px;">Admin</button>
     </footer>
 
     <!-- MDBootstrap and Bootstrap 5 JS -->

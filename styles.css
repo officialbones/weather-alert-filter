@@ -5,37 +5,42 @@ body {
     color: #f5f5f5;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 
-header {
-    background-color: #1a1a1a;
+/* Custom alert section styles (moved to top) */
+#custom-alert-section {
+    margin-bottom: 20px;
     padding: 20px;
-    text-align: center;
-    border-bottom: 3px solid #333;
+    border-radius: 10px;
 }
 
-h1 {
-    font-size: 2.5em;
+/* Alert Popup Styling */
+.alert-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.alert-popup .card {
     margin: 0;
-    color: #ffffff;
 }
 
-nav button {
-    background-color: #007bff;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 1.1em;
-    color: white;
+/* Admin button styling */
+#admin-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1001;
     cursor: pointer;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-nav button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Card Styles for Weather and Alerts */
@@ -106,25 +111,6 @@ nav button:hover {
     color: #f8f9fa; /* Lighter text color for readability */
 }
 
-/* Padding and spacing updates for overall alerts section */
-#alerts-list {
-    padding: 20px;
-    margin-bottom: 40px;
-}
-
-/* Different styles for Watch and Advisory alerts */
-.alert-item.watch {
-    background-color: rgba(255, 223, 0, 0.1); /* Light yellow for Watch alerts */
-    border: 2px solid #ffd700; /* Yellow border */
-    box-shadow: 0px 8px 15px rgba(255, 223, 0, 0.4);
-}
-
-.alert-item.advisory {
-    background-color: rgba(0, 191, 255, 0.1); /* Light blue for Advisory alerts */
-    border: 2px solid #00bfff; /* Blue border */
-    box-shadow: 0px 8px 15px rgba(0, 191, 255, 0.4);
-}
-
 /* Footer */
 footer {
     background-color: #1a1a1a;
@@ -132,38 +118,4 @@ footer {
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
-}
-
-/* Loading Spinner Styles */
-#loading-spinner {
-    text-align: center;
-    color: #ff6f61;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Mobile Styles */
-@media only screen and (max-width: 600px) {
-    header, #content, footer {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    nav button {
-        padding: 5px 10px;
-        font-size: 0.9em;
-    }
-
-    #weather-info, .alert-item {
-        padding: 15px;
-    }
 }
