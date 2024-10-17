@@ -25,7 +25,8 @@ function fetchWeatherAlerts() {
             const xmlDoc = parser.parseFromString(data, "application/xml");
             
             const entries = xmlDoc.getElementsByTagName("entry");
-            const alerts = [];
+            const alertsList = document.getElementById("alerts-list");
+            alertsList.innerHTML = ''; // Clear current list
 
             for (let i = 0; i < entries.length; i++) {
                 const entry = entries[i];
@@ -33,92 +34,53 @@ function fetchWeatherAlerts() {
                 const summary = entry.getElementsByTagName("summary")[0].textContent;
                 const updated = entry.getElementsByTagName("updated")[0].textContent;
 
-                // Determine alert type based on the title or other attributes
-                let alertType = 'Other'; // Default type if no match
-                if (title.includes("Warning")) {
-                    alertType = 'Warning';
-                } else if (title.includes("Watch")) {
-                    alertType = 'Watch';
-                } else if (title.includes("Advisory")) {
-                    alertType = 'Advisory';
-                }
+                // Create alert element
+                const alertElement = document.createElement('div');
+                alertElement.classList.add('alert-item');
 
-                alerts.push({
-                    type: alertType,
-                    title: title,
-                    updated: updated,
-                    description: summary
-                });
+                const severityBox = document.createElement('div');
+                severityBox.classList.add('severity-box');
+                severityBox.textContent = 'Alert';
+                alertElement.appendChild(severityBox);
+
+                const alertTitle = document.createElement('h3');
+                alertTitle.textContent = title;
+                alertElement.appendChild(alertTitle);
+
+                const alertUpdated = document.createElement('div');
+                alertUpdated.classList.add('alert-updated');
+                alertUpdated.textContent = `Updated: ${updated}`;
+                alertElement.appendChild(alertUpdated);
+
+                const alertSummary = document.createElement('div');
+                alertSummary.classList.add('alert-summary');
+                alertSummary.textContent = summary;
+                alertElement.appendChild(alertSummary);
+
+                alertsList.appendChild(alertElement);
             }
 
-            if (alerts.length > 0) {
-                console.log("Alerts fetched:", alerts);
-                filterAlerts('All', alerts); // Display all alerts by default
-            } else {
+            if (entries.length === 0) {
                 console.log("No alerts available.");
-                document.getElementById('alerts-list').innerHTML = '<p>No active weather alerts.</p>';
+                alertsList.innerHTML = '<p>No active weather alerts.</p>';
             }
+
+            // Hide loading spinner
+            document.getElementById('loading-spinner').style.display = 'none';
         })
         .catch(error => {
             console.error("Error fetching weather alerts:", error);
             document.getElementById('alerts-list').innerHTML = '<p>Unable to load weather alerts.</p>';
+            document.getElementById('loading-spinner').style.display = 'none'; // Hide spinner on error
         });
 }
-
-
-
-
-// Function to filter alerts by type
-// Function to filter alerts by type
-function filterAlerts(alertType, alerts) {
-    if (!alerts || alerts.length === 0) {
-        console.log("No alerts available to filter.");
-        document.getElementById("alerts-list").innerHTML = '<p>No weather alerts to display.</p>';
-        return;
-    }
-
-    console.log(`Filtering alerts for type: ${alertType}`);
-    const alertsList = document.getElementById("alerts-list");
-    alertsList.innerHTML = ''; // Clear the current list
-
-    alerts.forEach(alert => {
-        // Only display alerts that match the selected type or show all alerts
-        if (alertType === 'All' || alert.type === alertType) {
-            const alertElement = document.createElement('div');
-            alertElement.classList.add('alert-item');
-
-            const severityBox = document.createElement('div');
-            severityBox.classList.add('severity-box', alert.type.toLowerCase());
-            severityBox.textContent = `Severity: ${alert.type}`;
-            alertElement.appendChild(severityBox);
-
-            const alertTitle = document.createElement('h3');
-            alertTitle.textContent = alert.title;
-            alertElement.appendChild(alertTitle);
-
-            const alertUpdated = document.createElement('div');
-            alertUpdated.classList.add('alert-updated');
-            alertUpdated.textContent = `Updated: ${alert.updated}`;
-            alertElement.appendChild(alertUpdated);
-
-            const alertSummary = document.createElement('div');
-            alertSummary.classList.add('alert-summary');
-            alertSummary.textContent = alert.description;
-            alertElement.appendChild(alertSummary);
-
-            alertsList.appendChild(alertElement);
-        }
-    });
-}
-
-
 
 // Function to fetch local weather data
 function fetchWeatherData() {
     console.log("Fetching weather data...");
-    const apiKey = '75491fbd2d99da35a5aed98142354714';
-    const lat = '40.4357';
-    const lon = '-85.01';
+    const apiKey = '75491fbd2d99da35a5aed98142354714'; // Your OpenWeather API key
+    const lat = '40.4357'; // Your latitude
+    const lon = '-85.01'; // Your longitude
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
 
     fetch(url)
