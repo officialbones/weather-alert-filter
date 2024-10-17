@@ -1,162 +1,117 @@
-/* General Styles */
+/* General Layout Styling */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #1e1e1e; /* Dark background for dark mode */
-    color: #f5f5f5;
     margin: 0;
-    padding: 0;
-    position: relative;
+    font-family: Arial, sans-serif;
+    background-color: #1f1f1f;
+    color: #f5f5f5;
 }
 
-/* Custom alert section styles (moved to top) */
-#custom-alert-section {
-    margin-bottom: 20px;
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
-    border-radius: 10px;
+    background-color: #333;
 }
 
-/* Alert Popup Styling */
-.alert-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Admin button styling */
-#admin-button {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 1001;
-    cursor: pointer;
-}
-
-/* Admin login popup */
-#admin-login-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Card Styles for Weather and Alerts */
-.card {
-    background-color: #2a2a2a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Permanent shadow */
-    border: 1px solid #5bc0de; /* Add border permanently */
-    margin-bottom: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4); /* Slightly stronger shadow on hover */
-}
-
-/* Alert Styles */
-.alert-item {
-    background-color: rgba(255, 0, 0, 0.1); /* Default background (this will be dynamically updated) */
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid #ff4d4d; /* Default border (this will be dynamically updated) */
-    box-shadow: 0px 8px 15px rgba(255, 77, 77, 0.4); /* Permanent shadow */
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.alert-item h3 {
-    font-size: 1.5em; /* Larger font size for the title */
-    font-weight: bold;
-    color: #ff4d4d; /* Alert title in bold red */
-}
-
-.alert-updated {
-    font-size: 0.9em;
-    color: #ccc; /* Lighter text for updated time */
-    margin-top: 10px;
-}
-
-.alert-summary {
-    font-size: 1.1em;
-    margin-top: 15px;
-    color: #f8f9fa; /* Lighter text color for readability */
-}
-
-/* Footer */
-footer {
-    background-color: #1a1a1a;
-    padding: 20px;
-    text-align: center;
-    color: #999;
-    border-top: 3px solid #333;
-}
-/* Current weather styling */
-.card {
-    max-width: 400px;  /* Set maximum width for all cards */
-    margin: 0 auto 20px auto;  /* Center-align cards and add margin */
-    padding: 20px;
-    background-color: #2b2b2b;
-    border-radius: 10px;
-}
-
-/* Current weather styling */
-.current-weather {
-    text-align: center;
-    font-size: 1.2em;
-    padding: 15px 0;
-}
-
-.current-temp {
+.logo {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 2em;
 }
 
-.current-temp img {
+.logo img {
+    width: 50px;
     margin-right: 10px;
 }
 
-/* 5-day forecast styling */
-.five-day-forecast {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.forecast-day {
-    text-align: center;
-    font-size: 0.9em;
-}
-
-/* Temperature Chart */
-.chart {
-    max-height: 250px;
-    margin-top: 20px;
-}
-
-/* Alerts Styling */
-.alert-item {
-    background-color: #f44336;
+.nav a {
+    margin-right: 15px;
     color: white;
-    padding: 10px;
-    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+/* Weather Cards Grid */
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    padding: 20px;
+}
+
+.weather-card {
+    background-color: #2b2b2b;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.weather-card h3 {
+    margin-bottom: 15px;
+}
+
+/* Custom Announcement Styling */
+.announcement-section {
+    background-color: #ff5555;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+/* Footer Section */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+}
+
+.refresh-btn {
+    background-color: #ff5555;
+    color: white;
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.refresh-btn:hover {
+    background-color: #ff7777;
+}
+
+/* Admin Modal */
+.admin-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #444;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#admin-modal input, #admin-modal textarea {
+    padding: 10px;
+    font-size: 1em;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
 }

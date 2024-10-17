@@ -1,35 +1,91 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const openWeatherApiKey = '75491fbd2d99da35a5aed98142354714';  // Replace with your OpenWeather API key
+    const openWeatherApiKey = '75491fbd2d99da35a5aed98142354714'; // OpenWeather API key
     const lat = 40.4357;
     const lon = -85.01;
+    const firebaseConfig = {
+        apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
+        authDomain: "jcni-webpage.firebaseapp.com",
+        databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
+        projectId: "jcni-webpage",
+        storageBucket: "jcni-webpage.appspot.com",
+        messagingSenderId: "62856501328",
+        appId: "1:62856501328:web:86df1e0a0477671e501955",
+        measurementId: "G-PSP0FWZQZL"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
     const weatherInfoDiv = document.getElementById('weather-info');
     const forecastDiv = document.getElementById('five-day-forecast');
-    const chartDiv = document.getElementById('temperature-chart');
     const alertsListDiv = document.getElementById('alerts-list');
-    
-    // Fetch current weather and 5-day forecast from OpenWeather
+    const customAnnouncementDiv = document.getElementById('custom-announcement');
+
+    // Firebase: Load custom announcement
+    db.ref('customAlert').on('value', snapshot => {
+        const alertData = snapshot.val();
+        if (alertData) {
+            customAnnouncementDiv.innerHTML = `
+                <div style="background-color: ${alertData.color}">
+                    <h2>${alertData.heading}</h2>
+                    <p>${alertData.description}</p>
+                    <p>Posted: ${new Date(alertData.timestamp).toLocaleString()}</p>
+                </div>
+            `;
+        }
+    });
+
+    // Admin Modal logic
+    const adminToggle = document.getElementById('admin-toggle');
+    const adminModal = document.getElementById('admin-modal');
+    const closeModal = document.getElementById('close-modal');
+    const postAnnouncementBtn = document.getElementById('post-announcement');
+
+    adminToggle.addEventListener('click', () => {
+        adminModal.style.display = 'block';
+    });
+
+    closeModal.addEventListener('click', () => {
+        adminModal.style.display = 'none';
+    });
+
+    // Post custom alert to Firebase
+    postAnnouncementBtn.addEventListener('click', () => {
+        const heading = document.getElementById('alert-heading').value;
+        const description = document.getElementById('alert-description').value;
+        const color = document.getElementById('alert-color').value;
+
+        db.ref('customAlert').set({
+            heading: heading,
+            description: description,
+            color: color,
+            timestamp: Date.now()
+        });
+        adminModal.style.display = 'none';
+    });
+
+    // Remove custom announcement
+    const removeAnnouncementBtn = document.getElementById('remove-announcement');
+    removeAnnouncementBtn.addEventListener('click', () => {
+        db.ref('customAlert').remove();
+        customAnnouncementDiv.innerHTML = '';
+    });
+
+    // Fetch current weather and forecast
     fetchCurrentWeather(lat, lon, openWeatherApiKey);
     fetchFiveDayForecast(lat, lon, openWeatherApiKey);
-    
-    // Fetch weather alerts from NWS
     fetchWeatherAlerts();
 
-    // Fetch current weather from OpenWeather
     function fetchCurrentWeather(lat, lon, apiKey) {
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
-
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 displayCurrentWeather(data);
-            })
-            .catch(error => {
-                console.error('Error fetching current weather:', error);
             });
     }
 
-    // Display current weather information
     function displayCurrentWeather(data) {
         const temp = data.main.temp;
         const description = data.weather[0].description;
@@ -49,27 +105,18 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
-    // Fetch 5-day forecast from OpenWeather
     function fetchFiveDayForecast(lat, lon, apiKey) {
         const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
-
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 displayFiveDayForecast(data);
-                displayTemperatureChart(data);  // Display temperature trend
-            })
-            .catch(error => {
-                console.error('Error fetching 5-day forecast:', error);
             });
     }
 
-    // Display 5-day forecast information
     function displayFiveDayForecast(data) {
         forecastDiv.innerHTML = '<h5>5-Day Forecast</h5>';
-        
-        const days = data.list.filter((reading) => reading.dt_txt.includes("12:00:00"));  // Noon data for each day
-        
+        const days = data.list.filter((reading) => reading.dt_txt.includes("12:00:00"));
         days.forEach((day) => {
             const date = new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
             const temp = day.main.temp;
@@ -86,57 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Display temperature trend for next 24 hours using Chart.js
-    function displayTemperatureChart(data) {
-        const hours = data.list.slice(0, 8).map(item => {
-            const date = new Date(item.dt * 1000);
-            return `${date.getHours()}:00`;
-        });
-
-        const temps = data.list.slice(0, 8).map(item => item.main.temp);
-
-        // Create chart using Chart.js
-        const ctx = document.createElement('canvas');
-        chartDiv.appendChild(ctx);
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: hours,
-                datasets: [{
-                    label: 'Temperature (°F)',
-                    data: temps,
-                    borderColor: 'rgba(255, 206, 86, 1)',
-                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                    borderWidth: 2,
-                    pointBackgroundColor: 'rgba(255, 206, 86, 1)'
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: false
-                    }
-                }
-            }
-        });
-    }
-
-    // Fetch weather alerts from NWS
     function fetchWeatherAlerts() {
-        const alertsUrl = `https://api.weather.gov/alerts/active?point=40.4357,-85.01`;  // NWS Alerts URL for your location
-
+        const alertsUrl = `https://api.weather.gov/alerts/active?point=40.4357,-85.01`;
         fetch(alertsUrl)
             .then(response => response.json())
             .then(data => {
                 displayWeatherAlerts(data);
-            })
-            .catch(error => {
-                console.error('Error fetching NWS alerts:', error);
             });
     }
 
-    // Display weather alerts from NWS
     function displayWeatherAlerts(data) {
         if (data.features.length === 0) {
             alertsListDiv.innerHTML = '<p>No alerts available.</p>';
@@ -145,7 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         data.features.forEach(alert => {
             const { headline, description, severity, event, effective, expires } = alert.properties;
-
             alertsListDiv.innerHTML += `
                 <div class="alert-item">
                     <p><strong>Severity:</strong> ${severity}</p>

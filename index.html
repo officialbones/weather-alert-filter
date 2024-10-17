@@ -3,171 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Stay updated with the latest weather alerts and news from Jay County.">
-    <meta name="keywords" content="Jay County, weather alerts, local news, freeze warning, wind advisory">
-    <title>Weather Alerts - Jay County News & Information</title>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics-compat.js"></script>
-    <script>
-      // Your Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
-        authDomain: "jcni-webpage.firebaseapp.com",
-        databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
-        projectId: "jcni-webpage",
-        storageBucket: "jcni-webpage.appspot.com",
-        messagingSenderId: "62856501328",
-        appId: "1:62856501328:web:86df1e0a0477671e501955",
-        measurementId: "G-PSP0FWZQZL"
-      };
-
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      const database = firebase.database();
-    </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Jay County News & Information</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
 </head>
-<body class="bg-dark text-light">
+<body>
 
-    <!-- Admin Login Popup -->
-    <div id="admin-login-popup" class="alert-popup" style="display: none;">
-        <div class="card bg-dark text-light mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Admin Login</h5>
-                <form id="admin-login-form">
-                    <div class="mb-3">
-                        <label for="admin-pin" class="form-label">Enter Admin PIN</label>
-                        <input type="password" id="admin-pin" class="form-control bg-dark text-light" placeholder="Enter PIN" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <button type="button" id="close-login-popup" class="btn btn-secondary">Close</button>
-                </form>
-            </div>
+    <!-- Custom Announcement Section (Firebase) -->
+    <div id="custom-announcement" class="announcement-section"></div>
+
+    <!-- Header Section with Logo and Navigation -->
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Logo" />
+            <h1>Jay County News & Information</h1>
         </div>
-    </div>
+        <nav class="nav">
+            <a href="#">Weather Bulletin</a>
+            <a href="#">Facebook</a>
+            <a href="#">Login/Signup</a>
+            <a href="#">PCP</a>
+        </nav>
+    </header>
 
-    <!-- Custom alert display section -->
-    <section id="custom-alert-section" style="display: none;">
-        <div id="custom-alert" class="alert-item mb-4">
-            <h3 id="custom-alert-title"></h3>
-            <p id="custom-alert-message"></p>
-            <div id="custom-alert-description"></div>
-            <div id="custom-alert-timestamp" style="font-size: 0.8em; color: #ccc;"></div>
-            <button id="remove-announcement" class="btn btn-danger mt-2" style="display: none;">Remove Announcement</button>
+    <!-- Weather Cards Grid -->
+    <section class="weather-grid">
+        <div class="weather-card">
+            <h3>5-Day Weather</h3>
+            <div id="five-day-forecast"></div>
+        </div>
+        <div class="weather-card">
+            <h3>Current Weather</h3>
+            <div id="weather-info"></div>
+        </div>
+        <div class="weather-card">
+            <h3>Active Weather Alerts</h3>
+            <div id="alerts-list"></div>
+        </div>
+        <div class="weather-card">
+            <h3>Live Radar</h3>
+            <iframe src="https://radar.link-to-your-live-radar" width="100%" height="200"></iframe>
         </div>
     </section>
 
-    <!-- Header -->
-    <header class="bg-dark text-light text-center py-3 mb-4">
-        <img src="jcni.jpg" alt="Jay County News & Information Logo" class="img-fluid mb-2" style="width: 80px;">
-        <h1 class="display-5">Jay County News & Information</h1>
-        <div class="d-flex justify-content-center gap-3 mt-2">
-            <button class="btn btn-primary" onclick="location.reload()">Refresh Alerts</button>
-            <button class="btn btn-outline-primary" onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
-            <button class="btn btn-outline-primary" onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
-        </div>
-    </header>
-<!-- Weather Section -->
-<div class="card bg-dark text-light mb-4">
-    <div class="card-body">
-        <h5 class="card-title">Current Weather</h5>
-        <div id="weather-info" class="current-weather">
-            <!-- Current weather will be loaded here -->
-        </div>
-        <div id="temperature-chart" class="chart"></div>  <!-- Graph will be rendered here -->
-        <div id="five-day-forecast" class="five-day-forecast">
-            <!-- 5-day forecast will be displayed here -->
-        </div>
-    </div>
-</div>
-
-<!-- Active Weather Alerts -->
-<div class="card bg-dark text-light mb-4">
-    <div class="card-body">
-        <h5 class="card-title">Active Weather Alerts</h5>
-        <div id="alerts-list">
-            <!-- Weather alerts will be displayed here -->
-        </div>
-    </div>
-</div>
-
-<!-- Include Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <div class="container">
-        <!-- Weather Info Card -->
-        <div class="card bg-dark text-light mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Current Weather</h5>
-                <div id="weather-info">
-                    <!-- Weather information will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Active Weather Alerts Card -->
-        <div class="card bg-dark text-light mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Active Weather Alerts</h5>
-                <div id="alerts-list">
-                    <!-- Weather alerts will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Subscribe to Alerts Card -->
-        <div class="card bg-dark text-light mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Subscribe to Weather Alerts</h5>
-                <form id="subscribe-form" class="d-flex gap-2">
-                    <select id="alert-type" class="form-select bg-dark text-light" aria-label="Choose alert type">
-                        <option value="Warning">Warnings</option>
-                        <option value="Watch">Watches</option>
-                        <option value="Advisory">Advisories</option>
-                    </select>
-                    <input type="email" id="email" class="form-control bg-dark text-light" placeholder="Enter your email" required>
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Form to post custom alert (popup will be triggered by admin button) -->
-        <div id="alert-popup" class="alert-popup" style="display: none;">
-            <div class="card bg-dark text-light mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Post a Custom Announcement</h5>
-                    <form id="custom-alert-form">
-                        <div class="mb-3">
-                            <label for="alert-heading" class="form-label">Heading</label>
-                            <input type="text" id="alert-heading" class="form-control bg-dark text-light" placeholder="Enter alert heading" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="alert-description" class="form-label">Description</label>
-                            <textarea id="alert-description" class="form-control bg-dark text-light" rows="3" placeholder="Enter description" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="alert-color" class="form-label">Box Color</label>
-                            <input type="color" id="alert-color" class="form-control bg-dark text-light" value="#ff0000" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Post Announcement</button>
-                        <button type="button" id="close-popup" class="btn btn-secondary">Close</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="bg-dark text-light text-center py-3">
-        <p>Jay County News & Information &copy; 2024</p>
-        <!-- Admin button for posting alerts -->
-        <button id="admin-button" class="btn btn-outline-light" style="position: absolute; right: 20px; bottom: 20px;">Admin</button>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <button class="refresh-btn" id="admin-toggle">Admin</button>
+        <button class="refresh-btn" id="remove-announcement">Remove Announcement</button>
+        <p>&copy; 2024 Jay County News & Information</p>
     </footer>
 
-    <script src="script.js" defer></script>
+    <!-- Admin Modal for Custom Alerts -->
+    <div id="admin-modal" class="admin-modal">
+        <div class="modal-content">
+            <h3>Post a Custom Announcement</h3>
+            <input type="text" id="alert-heading" placeholder="Heading">
+            <textarea id="alert-description" placeholder="Description"></textarea>
+            <input type="color" id="alert-color" value="#ff5555">
+            <button id="post-announcement">Post Announcement</button>
+            <button id="close-modal">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
