@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const openWeatherApiKey = '75491fbd2d99da35a5aed98142354714'; // OpenWeather API key
+    const openWeatherApiKey = 'your_openweather_api_key'; // OpenWeather API key
     const lat = 40.4357;
     const lon = -85.01;
+
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
         authDomain: "jcni-webpage.firebaseapp.com",
