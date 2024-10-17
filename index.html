@@ -34,14 +34,31 @@
 </head>
 <body class="bg-dark text-light">
 
-    <!-- Custom alert display section (moved to top) -->
+    <!-- Admin Login Popup -->
+    <div id="admin-login-popup" class="alert-popup" style="display: none;">
+        <div class="card bg-dark text-light mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Admin Login</h5>
+                <form id="admin-login-form">
+                    <div class="mb-3">
+                        <label for="admin-pin" class="form-label">Enter Admin PIN</label>
+                        <input type="password" id="admin-pin" class="form-control bg-dark text-light" placeholder="Enter PIN" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" id="close-login-popup" class="btn btn-secondary">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom alert display section -->
     <section id="custom-alert-section" style="display: none;">
         <div id="custom-alert" class="alert-item mb-4">
             <h3 id="custom-alert-title"></h3>
             <p id="custom-alert-message"></p>
             <div id="custom-alert-description"></div>
             <div id="custom-alert-timestamp" style="font-size: 0.8em; color: #ccc;"></div>
-            <button id="remove-announcement" class="btn btn-danger mt-2">Remove Announcement</button>
+            <button id="remove-announcement" class="btn btn-danger mt-2" style="display: none;">Remove Announcement</button>
         </div>
     </section>
 
