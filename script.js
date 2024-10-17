@@ -7,8 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Show loading spinner
-    document.getElementById('loading-spinner').style.display = 'block';
-    
+    const spinner = document.getElementById('loading-spinner');
+    if (spinner) {
+        spinner.style.display = 'block';
+    }
+
     // Fetch and display weather alerts and data
     fetchWeatherAlerts();
     fetchWeatherData();
@@ -91,12 +94,18 @@ function fetchWeatherAlerts() {
             }
 
             // Hide loading spinner
-            document.getElementById('loading-spinner').style.display = 'none';
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
         })
         .catch(error => {
             console.error("Error fetching weather alerts:", error);
             document.getElementById('alerts-list').innerHTML = '<p>Unable to load weather alerts.</p>';
-            document.getElementById('loading-spinner').style.display = 'none'; // Hide spinner on error
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
         });
 }
 
@@ -121,12 +130,18 @@ function fetchWeatherData() {
         .then(response => response.json())
         .then(data => {
             displayWeatherData(data);
-            document.getElementById('loading-spinner').style.display = 'none';  // Hide spinner once data is loaded
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
         })
         .catch(error => {
             console.error("Error fetching weather data:", error);
             document.getElementById('weather-info').innerHTML = 'Unable to load local weather data. Please try again later.';
-            document.getElementById('loading-spinner').style.display = 'none';  // Hide spinner on error
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
         });
 }
 
@@ -141,5 +156,33 @@ function displayWeatherData(data) {
         <p>Pressure: ${data.main.pressure} hPa</p>
         <p>Sunrise: ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</p>
         <p>Sunset: ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}</p>
+    `;
+}
+
+// Function to fetch historical weather data
+function fetchHistoricalWeather(lat, lon, timestamp) {
+    const apiKey = '75491fbd2d99da35a5aed98142354714'; // Your OpenWeather API key
+    const url = `https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${timestamp}&appid=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displayHistoricalWeatherData(data);
+        })
+        .catch(error => {
+            console.error("Error fetching historical weather data:", error);
+        });
+}
+
+// Display Historical Data
+function displayHistoricalWeatherData(data) {
+    const historicalWeather = document.getElementById('historical-weather-info');
+    historicalWeather.innerHTML = `
+        <h3>Historical Weather for ${new Date(data.current.dt * 1000).toLocaleDateString()}</h3>
+        <p>Temperature: ${data.current.temp}°F</p>
+        <p>Condition: ${data.current.weather[0].description}</p>
+        <p>Wind Speed: ${data.current.wind_speed} mph</p>
+        <p>Humidity: ${data.current.humidity}%</p>
+        <p>Pressure: ${data.current.pressure} hPa</p>
     `;
 }
