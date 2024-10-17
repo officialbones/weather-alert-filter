@@ -26,13 +26,6 @@
     </header>
 
     <div class="container">
-        <!-- Loading Spinner -->
-        <div id="loading-spinner" class="text-center my-4" style="display: none;">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-
         <!-- Weather Info Card -->
         <div class="card bg-dark text-light mb-4">
             <div class="card-body">
@@ -69,15 +62,51 @@
             </div>
         </div>
 
-        <!-- Historical Weather Card -->
-        <div class="card bg-dark text-light mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Historical Weather</h5>
-                <div id="historical-weather-info">
-                    <!-- Historical weather information will be loaded here -->
+        <!-- Custom Alert Section (PIN-protected) -->
+        <section id="pin-section" class="mb-4">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <h5 class="card-title">Enter PIN to Access Admin Section</h5>
+                    <form id="pin-form">
+                        <input type="password" id="pin-input" class="form-control bg-dark text-light" placeholder="Enter PIN" required>
+                        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        <p id="pin-error" class="text-danger" style="display: none;">Incorrect PIN</p>
+                    </form>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Form to post custom alert (admin-only section) -->
+        <section id="post-alert" style="display: none;">
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Post a Custom Alert</h5>
+                    <form id="custom-alert-form">
+                        <div class="mb-3">
+                            <label for="alert-message" class="form-label">Alert Message</label>
+                            <textarea id="alert-message" class="form-control bg-dark text-light" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="alert-severity" class="form-label">Alert Severity</label>
+                            <select id="alert-severity" class="form-select bg-dark text-light">
+                                <option value="warning">Warning</option>
+                                <option value="watch">Watch</option>
+                                <option value="advisory">Advisory</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Alert</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom alert display section -->
+        <section id="custom-alert-section" style="display: none;">
+            <div id="custom-alert" class="alert-item mb-4">
+                <h3 id="custom-alert-title"></h3>
+                <p id="custom-alert-message"></p>
+            </div>
+        </section>
     </div>
 
     <footer class="bg-dark text-light text-center py-3">
