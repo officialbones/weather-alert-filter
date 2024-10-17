@@ -10,20 +10,30 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to fetch weather alerts
+// Function to fetch weather alerts using OpenWeather API
 function fetchWeatherAlerts() {
-    console.log("Fetching weather alerts...");
-    const alerts = [
-        {
-            type: 'Warnings',
-            title: 'Freeze Warning issued October 15 at 3:10PM EDT until October 16 at 9:00AM EDT by NWS Northern Indiana',
-            updated: '2024-10-15T15:10:00-04:00',
-            description: '* WHAT...Sub-freezing temperatures as low as 30 expected. * WHERE...Portions of northern Indiana, southwest Michigan, and northwest Ohio. * WHEN...From 2 AM to 9 AM EDT Wednesday. * IMPACTS...Frost and freeze conditions could kill crops, other sensitive vegetation and possibly damage unprotected outdoor plumbing.'
-        }
-    ];
-    filterAlerts('All', alerts);
-    // Hide loading spinner after data is loaded
-    document.getElementById('loading-spinner').style.display = 'none';
+    const apiKey = '75491fbd2d99da35a5aed98142354714'; // Your OpenWeather API key
+    const lat = '40.4357'; // Your latitude
+    const lon = '-85.01'; // Your longitude
+    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,daily&appid=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.alerts && data.alerts.length > 0) {
+                console.log("Alerts fetched:", data.alerts);
+                filterAlerts('All', data.alerts); // Display all alerts by default
+            } else {
+                console.log("No alerts available.");
+                document.getElementById('alerts-list').innerHTML = '<p>No active weather alerts.</p>';
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching weather alerts:", error);
+            document.getElementById('alerts-list').innerHTML = '<p>Unable to load weather alerts.</p>';
+        });
 }
+
 
 // Function to filter alerts by type
 function filterAlerts(alertType, alerts) {
