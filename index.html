@@ -14,16 +14,16 @@
         <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
         <h1>Jay County News & Information</h1>
         <nav>
-            <button onclick="location.reload()" aria-label="Refresh weather alerts">Refresh Alerts</button>
-            <button onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'" aria-label="Visit our Facebook page">Facebook</button>
-            <button onclick="window.location.href='https://twitter.com/yourpage'" aria-label="Visit our Twitter page">Twitter</button>
+            <button onclick="location.reload()" class="share" aria-label="Refresh weather alerts">Refresh Alerts</button>
+            <button class="share" onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'" aria-label="Visit our Facebook page">Facebook</button>
+            <button class="share" onclick="window.location.href='https://twitter.com/yourpage'" aria-label="Visit our Twitter page">Twitter</button>
         </nav>
     </header>
 
     <section id="content">
         <div id="loading-spinner" style="display: none;">Loading...</div>
 
-        <div id="weather-info">
+        <div id="weather-info" class="card">
             <!-- Weather information will be loaded here -->
         </div>
 
@@ -32,7 +32,7 @@
             <div id="alerts-list"></div>
         </section>
 
-        <section id="subscribe">
+        <section id="subscribe" class="card">
             <h3>Subscribe to Weather Alerts</h3>
             <form id="subscribe-form">
                 <label for="alert-type">Choose alert type:</label>
@@ -46,7 +46,7 @@
             </form>
         </section>
 
-        <section id="historical-weather">
+        <section id="historical-weather" class="card">
             <h3>Historical Weather</h3>
             <div id="historical-weather-info"></div>
         </section>

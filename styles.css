@@ -1,13 +1,12 @@
 /* General Styles */
 body {
-    background-color: #121212;
+    background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
     color: #f5f5f5;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-/* Header Styles */
 header {
     background-color: #1a1a1a;
     padding: 20px;
@@ -48,44 +47,30 @@ nav button:hover {
     background-color: #ff483d;
 }
 
-/* Main Content Styles */
-#content {
-    padding: 40px;
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: left;
-}
-
-#tabs {
-    text-align: center;
+/* Card Styles for Weather and Alerts */
+.card {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-#tabs button {
-    background-color: #4a4a4a;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    font-size: 1em;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#tabs button:hover {
-    background-color: #ff6f61;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Weather Info Styles */
 #weather-info {
     background-color: #2a2a2a;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-bottom: 20px;
     border: 1px solid #5bc0de;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     text-align: left;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 #weather-info p {
@@ -95,20 +80,26 @@ nav button:hover {
     margin-bottom: 10px;
 }
 
-/* Alerts Section Styles */
+/* Alert Styles */
 .alert-item {
     background-color: #2a2a2a;
     margin-bottom: 20px;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid #ff6f61;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .alert-item h3 {
     margin: 0;
     font-size: 1.5em;
     color: #ff6f61;
+}
+
+.alert-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .alert-updated {
@@ -123,13 +114,30 @@ nav button:hover {
     color: #ddd;
 }
 
-/* Footer Styles */
+/* Footer */
 footer {
     background-color: #1a1a1a;
     padding: 20px;
     text-align: center;
     color: #999;
     border-top: 3px solid #333;
+}
+
+/* Buttons for Sharing & Refresh */
+button.share {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1.1em;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button.share:hover {
+    background-color: #0056b3;
 }
 
 /* Loading Spinner Styles */
@@ -153,5 +161,9 @@ footer {
     nav button {
         padding: 5px 10px;
         font-size: 0.9em;
+    }
+
+    #weather-info, .alert-item {
+        padding: 15px;
     }
 }
