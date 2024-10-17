@@ -58,7 +58,7 @@ function fetchWeatherAlerts() {
 
                 // Create alert element
                 const alertElement = document.createElement('div');
-                alertElement.classList.add('alert-item');
+                alertElement.classList.add('alert-item', title.includes("Warning") ? "warning" : title.includes("Watch") ? "watch" : "advisory");
 
                 const severityBox = document.createElement('div');
                 severityBox.classList.add('severity-box');
