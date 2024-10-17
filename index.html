@@ -7,6 +7,7 @@
     <meta name="keywords" content="Jay County, weather alerts, local news, freeze warning, wind advisory">
     <title>Weather Alerts - Jay County News & Information</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
@@ -29,6 +30,25 @@
         <section id="alerts">
             <h2>Active Weather Alerts</h2>
             <div id="alerts-list"></div>
+        </section>
+
+        <section id="subscribe">
+            <h3>Subscribe to Weather Alerts</h3>
+            <form id="subscribe-form">
+                <label for="alert-type">Choose alert type:</label>
+                <select id="alert-type">
+                    <option value="Warning">Warnings</option>
+                    <option value="Watch">Watches</option>
+                    <option value="Advisory">Advisories</option>
+                </select>
+                <input type="email" id="email" placeholder="Enter your email">
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
+
+        <section id="historical-weather">
+            <h3>Historical Weather</h3>
+            <div id="historical-weather-info"></div>
         </section>
     </section>
 
