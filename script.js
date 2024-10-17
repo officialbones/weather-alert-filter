@@ -1,110 +1,126 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const customAlertForm = document.getElementById('custom-alert-form');
-    const customAlertSection = document.getElementById('custom-alert-section');
-    const customAlertTitle = document.getElementById('custom-alert-title');
-    const customAlertMessage = document.getElementById('custom-alert-message');
-    const customAlertDescription = document.getElementById('custom-alert-description');
-    const customAlertTimestamp = document.getElementById('custom-alert-timestamp');
-    const customAlert = document.getElementById('custom-alert');
-    const removeAnnouncementButton = document.getElementById('remove-announcement');
+    const openWeatherApiKey = '75491fbd2d99da35a5aed98142354714';  // Replace with your actual OpenWeather API key
+    const lat = 40.4357;
+    const lon = -85.01;
 
-    const alertPopup = document.getElementById('alert-popup');
-    const adminButton = document.getElementById('admin-button');
-    const closePopupButton = document.getElementById('close-popup');
-
-    // Admin login form
-    const adminLoginPopup = document.getElementById('admin-login-popup');
-    const adminLoginForm = document.getElementById('admin-login-form');
-    const closeLoginPopupButton = document.getElementById('close-login-popup');
+    const weatherInfoDiv = document.getElementById('weather-info');
+    const alertsListDiv = document.getElementById('alerts-list');
     
-    const adminPinInput = document.getElementById('admin-pin');
-    const correctAdminPin = '1234';  // Set the correct PIN here
+    // Fetch current weather and 5-day forecast from OpenWeather
+    fetchCurrentWeather(lat, lon, openWeatherApiKey);
+    fetchFiveDayForecast(lat, lon, openWeatherApiKey);
+    
+    // Fetch weather alerts from NWS
+    fetchWeatherAlerts();
 
-    let isAdmin = false;
+    // Fetch current weather from OpenWeather
+    function fetchCurrentWeather(lat, lon, apiKey) {
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
-    // Fetch custom alert from Firebase
-    firebase.database().ref('customAlert').on('value', (snapshot) => {
-        const alertData = snapshot.val();
-        if (alertData) {
-            displayCustomAlert(alertData.heading, alertData.description, alertData.color, alertData.timestamp);
-        }
-    });
-
-    // Handle form submission to store custom alert in Firebase
-    customAlertForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const heading = document.getElementById('alert-heading').value;
-        const description = document.getElementById('alert-description').value;
-        const color = document.getElementById('alert-color').value;
-        const timestamp = new Date().toLocaleString();
-
-        // Save custom alert to Firebase
-        firebase.database().ref('customAlert').set({
-            heading: heading,
-            description: description,
-            color: color,
-            timestamp: timestamp
-        });
-
-        // Close the popup
-        alertPopup.style.display = 'none';
-    });
-
-    // Function to display custom alert
-    function displayCustomAlert(heading, description, color, timestamp) {
-        customAlertSection.style.display = 'block';
-        customAlertTitle.textContent = heading;
-        customAlertMessage.textContent = description;
-        customAlert.style.backgroundColor = color;
-        customAlert.style.borderColor = color;
-        customAlertTimestamp.textContent = `Posted on: ${timestamp}`;
-
-        // Only show remove button if logged in as admin
-        if (isAdmin) {
-            removeAnnouncementButton.style.display = 'block';
-        } else {
-            removeAnnouncementButton.style.display = 'none';
-        }
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                displayCurrentWeather(data);
+            })
+            .catch(error => {
+                console.error('Error fetching current weather:', error);
+            });
     }
 
-    // Remove the announcement
-    removeAnnouncementButton.addEventListener('click', () => {
-        customAlertSection.style.display = 'none';
+    // Display current weather information
+    function displayCurrentWeather(data) {
+        const temp = data.main.temp;
+        const feelsLike = data.main.feels_like;
+        const description = data.weather[0].description;
+        const windSpeed = data.wind.speed;
+        const humidity = data.main.humidity;
+        const pressure = data.main.pressure;
+        const sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString();
+        const sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString();
 
-        // Remove custom alert from Firebase
-        firebase.database().ref('customAlert').remove();
-    });
+        weatherInfoDiv.innerHTML = `
+            <p>Temperature: ${temp}°F (Feels like: ${feelsLike}°F)</p>
+            <p>Condition: ${description}</p>
+            <p>Wind Speed: ${windSpeed} mph</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Pressure: ${pressure} hPa</p>
+            <p>Sunrise: ${sunrise}</p>
+            <p>Sunset: ${sunset}</p>
+        `;
+    }
 
-    // Show popup on admin button click
-    adminButton.addEventListener('click', () => {
-        if (isAdmin) {
-            alertPopup.style.display = 'block';
-        } else {
-            adminLoginPopup.style.display = 'block';  // Show login popup if not logged in
+    // Fetch 5-day forecast from OpenWeather
+    function fetchFiveDayForecast(lat, lon, apiKey) {
+        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                displayFiveDayForecast(data);
+            })
+            .catch(error => {
+                console.error('Error fetching 5-day forecast:', error);
+            });
+    }
+
+    // Display 5-day forecast information
+    function displayFiveDayForecast(data) {
+        const forecastDiv = document.createElement('div');
+        forecastDiv.classList.add('forecast');
+        forecastDiv.innerHTML = '<h5>5-Day Forecast</h5>';
+        
+        const days = data.list.filter((reading) => reading.dt_txt.includes("12:00:00"));  // Filter noon data for each day
+        
+        days.forEach((day) => {
+            const date = new Date(day.dt * 1000).toLocaleDateString();
+            const temp = day.main.temp;
+            const description = day.weather[0].description;
+
+            forecastDiv.innerHTML += `
+                <div class="forecast-day">
+                    <p><strong>${date}</strong></p>
+                    <p>Temp: ${temp}°F</p>
+                    <p>Condition: ${description}</p>
+                </div>
+            `;
+        });
+        
+        weatherInfoDiv.appendChild(forecastDiv);
+    }
+
+    // Fetch weather alerts from NWS
+    function fetchWeatherAlerts() {
+        const alertsUrl = `https://api.weather.gov/alerts/active?point=40.4357,-85.01`;  // NWS Alerts URL for your location
+
+        fetch(alertsUrl)
+            .then(response => response.json())
+            .then(data => {
+                displayWeatherAlerts(data);
+            })
+            .catch(error => {
+                console.error('Error fetching NWS alerts:', error);
+            });
+    }
+
+    // Display weather alerts from NWS
+    function displayWeatherAlerts(data) {
+        if (data.features.length === 0) {
+            alertsListDiv.innerHTML = '<p>No alerts available.</p>';
+            return;
         }
-    });
 
-    // Admin login form submit
-    adminLoginForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const enteredPin = adminPinInput.value;
+        data.features.forEach(alert => {
+            const { headline, description, severity, event, effective, expires } = alert.properties;
 
-        if (enteredPin === correctAdminPin) {
-            isAdmin = true;  // Set admin status to true
-            adminLoginPopup.style.display = 'none';  // Close the login popup
-            alertPopup.style.display = 'block';  // Show the alert form popup
-        } else {
-            alert('Incorrect PIN. Try again.');
-        }
-    });
-
-    // Close the admin login popup
-    closeLoginPopupButton.addEventListener('click', () => {
-        adminLoginPopup.style.display = 'none';
-    });
-
-    // Close the alert form popup
-    closePopupButton.addEventListener('click', () => {
-        alertPopup.style.display = 'none';
-    });
+            alertsListDiv.innerHTML += `
+                <div class="alert-item">
+                    <p><strong>Severity:</strong> ${severity}</p>
+                    <p>${headline} (${event})</p>
+                    <p><strong>Effective:</strong> ${new Date(effective).toLocaleString()}</p>
+                    <p><strong>Expires:</strong> ${new Date(expires).toLocaleString()}</p>
+                    <p>${description}</p>
+                </div>
+            `;
+        });
+    }
 });
