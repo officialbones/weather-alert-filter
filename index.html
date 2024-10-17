@@ -6,28 +6,27 @@
     <meta name="description" content="Stay updated with the latest weather alerts and news from Jay County.">
     <meta name="keywords" content="Jay County, weather alerts, local news, freeze warning, wind advisory">
     <title>Weather Alerts - Jay County News & Information</title>
-   <!-- Add Firebase SDKs from the CDN -->
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics-compat.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics-compat.js"></script>
+    <script>
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
+        authDomain: "jcni-webpage.firebaseapp.com",
+        databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
+        projectId: "jcni-webpage",
+        storageBucket: "jcni-webpage.appspot.com",
+        messagingSenderId: "62856501328",
+        appId: "1:62856501328:web:86df1e0a0477671e501955",
+        measurementId: "G-PSP0FWZQZL"
+      };
 
-<script>
-  // Your Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
-    authDomain: "jcni-webpage.firebaseapp.com",
-    databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
-    projectId: "jcni-webpage",
-    storageBucket: "jcni-webpage.appspot.com",
-    messagingSenderId: "62856501328",
-    appId: "1:62856501328:web:86df1e0a0477671e501955",
-    measurementId: "G-PSP0FWZQZL"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-</script>
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -40,6 +39,9 @@
         <div id="custom-alert" class="alert-item mb-4">
             <h3 id="custom-alert-title"></h3>
             <p id="custom-alert-message"></p>
+            <div id="custom-alert-description"></div>
+            <div id="custom-alert-timestamp" style="font-size: 0.8em; color: #ccc;"></div>
+            <button id="remove-announcement" class="btn btn-danger mt-2">Remove Announcement</button>
         </div>
     </section>
 
@@ -95,21 +97,21 @@
         <div id="alert-popup" class="alert-popup" style="display: none;">
             <div class="card bg-dark text-light mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Post a Custom Alert</h5>
+                    <h5 class="card-title">Post a Custom Announcement</h5>
                     <form id="custom-alert-form">
                         <div class="mb-3">
-                            <label for="alert-message" class="form-label">Alert Message</label>
-                            <textarea id="alert-message" class="form-control bg-dark text-light" rows="3" required></textarea>
+                            <label for="alert-heading" class="form-label">Heading</label>
+                            <input type="text" id="alert-heading" class="form-control bg-dark text-light" placeholder="Enter alert heading" required>
                         </div>
                         <div class="mb-3">
-                            <label for="alert-severity" class="form-label">Alert Severity</label>
-                            <select id="alert-severity" class="form-select bg-dark text-light">
-                                <option value="warning">Warning</option>
-                                <option value="watch">Watch</option>
-                                <option value="advisory">Advisory</option>
-                            </select>
+                            <label for="alert-description" class="form-label">Description</label>
+                            <textarea id="alert-description" class="form-control bg-dark text-light" rows="3" placeholder="Enter description" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Post Alert</button>
+                        <div class="mb-3">
+                            <label for="alert-color" class="form-label">Box Color</label>
+                            <input type="color" id="alert-color" class="form-control bg-dark text-light" value="#ff0000" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Announcement</button>
                         <button type="button" id="close-popup" class="btn btn-secondary">Close</button>
                     </form>
                 </div>
