@@ -6,56 +6,79 @@
     <meta name="description" content="Stay updated with the latest weather alerts and news from Jay County.">
     <meta name="keywords" content="Jay County, weather alerts, local news, freeze warning, wind advisory">
     <title>Weather Alerts - Jay County News & Information</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- MDBootstrap and Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <img src="jcni.jpg" alt="Jay County News & Information Logo" id="logo">
-        <h1>Jay County News & Information</h1>
-        <nav>
-            <button onclick="location.reload()" class="share" aria-label="Refresh weather alerts">Refresh Alerts</button>
-            <button class="share" onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'" aria-label="Visit our Facebook page">Facebook</button>
-            <button class="share" onclick="window.location.href='https://twitter.com/yourpage'" aria-label="Visit our Twitter page">Twitter</button>
-        </nav>
+
+    <!-- Header -->
+    <header class="bg-dark text-light text-center py-3 mb-4">
+        <img src="jcni.jpg" alt="Jay County News & Information Logo" class="img-fluid mb-2" style="width: 80px;">
+        <h1 class="display-5">Jay County News & Information</h1>
+        <div class="d-flex justify-content-center gap-3 mt-2">
+            <button class="btn btn-primary" onclick="location.reload()">Refresh Alerts</button>
+            <button class="btn btn-outline-primary" onclick="window.location.href='https://www.facebook.com/JCNIINDIANA'">Facebook</button>
+            <button class="btn btn-outline-primary" onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
+        </div>
     </header>
 
-    <section id="content">
-        <div id="loading-spinner" style="display: none;">Loading...</div>
-
-        <div id="weather-info" class="card">
-            <!-- Weather information will be loaded here -->
+    <div class="container">
+        <!-- Weather Info Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Current Weather</h5>
+                <div id="weather-info">
+                    <!-- Weather information will be loaded here -->
+                </div>
+            </div>
         </div>
 
-        <section id="alerts">
-            <h2>Active Weather Alerts</h2>
-            <div id="alerts-list"></div>
-        </section>
+        <!-- Active Weather Alerts Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Active Weather Alerts</h5>
+                <div id="alerts-list">
+                    <!-- Weather alerts will be loaded here -->
+                </div>
+            </div>
+        </div>
 
-        <section id="subscribe" class="card">
-            <h3>Subscribe to Weather Alerts</h3>
-            <form id="subscribe-form">
-                <label for="alert-type">Choose alert type:</label>
-                <select id="alert-type">
-                    <option value="Warning">Warnings</option>
-                    <option value="Watch">Watches</option>
-                    <option value="Advisory">Advisories</option>
-                </select>
-                <input type="email" id="email" placeholder="Enter your email">
-                <button type="submit">Subscribe</button>
-            </form>
-        </section>
+        <!-- Subscribe to Alerts Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Subscribe to Weather Alerts</h5>
+                <form id="subscribe-form" class="d-flex gap-2">
+                    <select id="alert-type" class="form-select" aria-label="Choose alert type">
+                        <option value="Warning">Warnings</option>
+                        <option value="Watch">Watches</option>
+                        <option value="Advisory">Advisories</option>
+                    </select>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
 
-        <section id="historical-weather" class="card">
-            <h3>Historical Weather</h3>
-            <div id="historical-weather-info"></div>
-        </section>
-    </section>
+        <!-- Historical Weather Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Historical Weather</h5>
+                <div id="historical-weather-info">
+                    <!-- Historical weather information will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <footer>
+    <footer class="bg-dark text-light text-center py-3">
         <p>Jay County News & Information &copy; 2024</p>
     </footer>
+
+    <!-- MDBootstrap and Bootstrap 5 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
     <script src="script.js" defer></script>
 </body>
 </html>

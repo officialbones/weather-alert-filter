@@ -143,31 +143,3 @@ function displayWeatherData(data) {
         <p>Sunset: ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}</p>
     `;
 }
-
-// Function to fetch historical weather data
-function fetchHistoricalWeather(lat, lon, timestamp) {
-    const apiKey = '75491fbd2d99da35a5aed98142354714'; // Your OpenWeather API key
-    const url = `https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${timestamp}&appid=${apiKey}`;
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            displayHistoricalWeatherData(data);
-        })
-        .catch(error => {
-            console.error("Error fetching historical weather data:", error);
-        });
-}
-
-// Display Historical Data
-function displayHistoricalWeatherData(data) {
-    const historicalWeather = document.getElementById('historical-weather-info');
-    historicalWeather.innerHTML = `
-        <h3>Historical Weather for ${new Date(data.current.dt * 1000).toLocaleDateString()}</h3>
-        <p>Temperature: ${data.current.temp}°F</p>
-        <p>Condition: ${data.current.weather[0].description}</p>
-        <p>Wind Speed: ${data.current.wind_speed} mph</p>
-        <p>Humidity: ${data.current.humidity}%</p>
-        <p>Pressure: ${data.current.pressure} hPa</p>
-    `;
-}
