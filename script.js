@@ -33,8 +33,18 @@ function fetchWeatherAlerts() {
                 const summary = entry.getElementsByTagName("summary")[0].textContent;
                 const updated = entry.getElementsByTagName("updated")[0].textContent;
 
+                // Determine alert type based on the title or other attributes
+                let alertType = 'Other'; // Default type if no match
+                if (title.includes("Warning")) {
+                    alertType = 'Warning';
+                } else if (title.includes("Watch")) {
+                    alertType = 'Watch';
+                } else if (title.includes("Advisory")) {
+                    alertType = 'Advisory';
+                }
+
                 alerts.push({
-                    type: 'Warning', // This can be customized based on the alert content
+                    type: alertType,
                     title: title,
                     updated: updated,
                     description: summary
@@ -57,6 +67,8 @@ function fetchWeatherAlerts() {
 
 
 
+
+// Function to filter alerts by type
 // Function to filter alerts by type
 function filterAlerts(alertType, alerts) {
     if (!alerts || alerts.length === 0) {
@@ -70,6 +82,7 @@ function filterAlerts(alertType, alerts) {
     alertsList.innerHTML = ''; // Clear the current list
 
     alerts.forEach(alert => {
+        // Only display alerts that match the selected type or show all alerts
         if (alertType === 'All' || alert.type === alertType) {
             const alertElement = document.createElement('div');
             alertElement.classList.add('alert-item');
@@ -97,6 +110,7 @@ function filterAlerts(alertType, alerts) {
         }
     });
 }
+
 
 
 // Function to fetch local weather data
