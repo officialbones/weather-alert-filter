@@ -7,7 +7,203 @@ body {
     transition: transform 0.3s ease;
 }
 
-.card:hover {
+.card:hover {/* General Styles */
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #1e1e1e; /* Dark background for dark mode */
+        color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+    
+    header {
+        background-color: #1a1a1a;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 3px solid #333;
+    }
+    
+    #logo {
+        width: 100px;
+        height: auto;
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+        margin: 0;
+        color: #ffffff;
+    }
+    
+    nav {
+        margin-top: 10px;
+    }
+    
+    nav button {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 1.1em;
+        color: white;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    nav button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Card Styles for Weather and Alerts */
+    .card {
+        background-color: #2a2a2a;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Weather Info Styles */
+    #weather-info {
+        background-color: #2a2a2a;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #5bc0de;
+        text-align: left;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    #weather-info p {
+        margin: 0;
+        font-size: 1.2em;
+        color: #ddd;
+        margin-bottom: 10px;
+    }
+    
+    /* Alert Styles - Make the alerts stand out */
+    .alert-item {
+        background-color: rgba(255, 0, 0, 0.1); /* Light red background for visibility */
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid #ff4d4d; /* Bold red border for warning */
+        box-shadow: 0px 4px 8px rgba(255, 77, 77, 0.4); /* Red shadow for emphasis */
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .alert-item h3 {
+        font-size: 1.5em; /* Larger font size for the title */
+        font-weight: bold;
+        color: #ff4d4d; /* Alert title in bold red */
+    }
+    
+    .alert-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 15px rgba(255, 77, 77, 0.6);
+    }
+    
+    .alert-updated {
+        font-size: 0.9em;
+        color: #ccc; /* Lighter text for updated time */
+        margin-top: 10px;
+    }
+    
+    .alert-summary {
+        font-size: 1.1em;
+        margin-top: 15px;
+        color: #f8f9fa; /* Lighter text color for readability */
+    }
+    
+    /* Padding and spacing updates for overall alerts section */
+    #alerts-list {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+    
+    /* Different styles for Watch and Advisory alerts */
+    .alert-item.watch {
+        background-color: rgba(255, 223, 0, 0.1); /* Light yellow for Watch alerts */
+        border: 2px solid #ffd700; /* Yellow border */
+        box-shadow: 0px 4px 8px rgba(255, 223, 0, 0.4);
+    }
+    
+    .alert-item.advisory {
+        background-color: rgba(0, 191, 255, 0.1); /* Light blue for Advisory alerts */
+        border: 2px solid #00bfff; /* Blue border */
+        box-shadow: 0px 4px 8px rgba(0, 191, 255, 0.4);
+    }
+    
+    /* Footer */
+    footer {
+        background-color: #1a1a1a;
+        padding: 20px;
+        text-align: center;
+        color: #999;
+        border-top: 3px solid #333;
+    }
+    
+    /* Buttons for Sharing & Refresh */
+    button.share {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 1.1em;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    button.share:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Loading Spinner Styles */
+    #loading-spinner {
+        text-align: center;
+        color: #ff6f61;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Mobile Styles */
+    @media only screen and (max-width: 600px) {
+        header, #content, footer {
+            padding: 10px;
+        }
+    
+        h1 {
+            font-size: 2em;
+        }
+    
+        nav button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
+    
+        #weather-info, .alert-item {
+            padding: 15px;
+        }
+    }
+    
     transform: translateY(-5px);
 }
 
