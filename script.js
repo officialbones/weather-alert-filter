@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const openWeatherApiKey = '75491fbd2d99da35a5aed98142354714';  // Replace with your actual OpenWeather API key
+    const openWeatherApiKey = '75491fbd2d99da35a5aed98142354714';  // Replace with your OpenWeather API key
     const lat = 40.4357;
     const lon = -85.01;
 
     const weatherInfoDiv = document.getElementById('weather-info');
+    const forecastDiv = document.getElementById('five-day-forecast');
+    const chartDiv = document.getElementById('temperature-chart');
     const alertsListDiv = document.getElementById('alerts-list');
     
     // Fetch current weather and 5-day forecast from OpenWeather
@@ -30,22 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Display current weather information
     function displayCurrentWeather(data) {
         const temp = data.main.temp;
-        const feelsLike = data.main.feels_like;
         const description = data.weather[0].description;
-        const windSpeed = data.wind.speed;
         const humidity = data.main.humidity;
-        const pressure = data.main.pressure;
-        const sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString();
-        const sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString();
+        const windSpeed = data.wind.speed;
+        const iconCode = data.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
         weatherInfoDiv.innerHTML = `
-            <p>Temperature: ${temp}°F (Feels like: ${feelsLike}°F)</p>
-            <p>Condition: ${description}</p>
-            <p>Wind Speed: ${windSpeed} mph</p>
+            <div class="current-temp">
+                <img src="${iconUrl}" alt="weather-icon">
+                <span>${temp}°F</span>
+            </div>
+            <p>${description.charAt(0).toUpperCase() + description.slice(1)}</p>
             <p>Humidity: ${humidity}%</p>
-            <p>Pressure: ${pressure} hPa</p>
-            <p>Sunrise: ${sunrise}</p>
-            <p>Sunset: ${sunset}</p>
+            <p>Wind: ${windSpeed} mph</p>
         `;
     }
 
@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(data => {
                 displayFiveDayForecast(data);
+                displayTemperatureChart(data);  // Display temperature trend
             })
             .catch(error => {
                 console.error('Error fetching 5-day forecast:', error);
@@ -65,27 +66,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Display 5-day forecast information
     function displayFiveDayForecast(data) {
-        const forecastDiv = document.createElement('div');
-        forecastDiv.classList.add('forecast');
         forecastDiv.innerHTML = '<h5>5-Day Forecast</h5>';
         
-        const days = data.list.filter((reading) => reading.dt_txt.includes("12:00:00"));  // Filter noon data for each day
+        const days = data.list.filter((reading) => reading.dt_txt.includes("12:00:00"));  // Noon data for each day
         
         days.forEach((day) => {
-            const date = new Date(day.dt * 1000).toLocaleDateString();
+            const date = new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
             const temp = day.main.temp;
-            const description = day.weather[0].description;
+            const iconCode = day.weather[0].icon;
+            const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
             forecastDiv.innerHTML += `
                 <div class="forecast-day">
-                    <p><strong>${date}</strong></p>
-                    <p>Temp: ${temp}°F</p>
-                    <p>Condition: ${description}</p>
+                    <p>${date}</p>
+                    <img src="${iconUrl}" alt="weather-icon">
+                    <p>${temp}°F</p>
                 </div>
             `;
         });
-        
-        weatherInfoDiv.appendChild(forecastDiv);
+    }
+
+    // Display temperature trend for next 24 hours using Chart.js
+    function displayTemperatureChart(data) {
+        const hours = data.list.slice(0, 8).map(item => {
+            const date = new Date(item.dt * 1000);
+            return `${date.getHours()}:00`;
+        });
+
+        const temps = data.list.slice(0, 8).map(item => item.main.temp);
+
+        // Create chart using Chart.js
+        const ctx = document.createElement('canvas');
+        chartDiv.appendChild(ctx);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: hours,
+                datasets: [{
+                    label: 'Temperature (°F)',
+                    data: temps,
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(255, 206, 86, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
     }
 
     // Fetch weather alerts from NWS

@@ -72,6 +72,32 @@
             <button class="btn btn-outline-primary" onclick="window.location.href='https://twitter.com/yourpage'">Twitter</button>
         </div>
     </header>
+<!-- Weather Section -->
+<div class="card bg-dark text-light mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Current Weather</h5>
+        <div id="weather-info" class="current-weather">
+            <!-- Current weather will be loaded here -->
+        </div>
+        <div id="temperature-chart" class="chart"></div>  <!-- Graph will be rendered here -->
+        <div id="five-day-forecast" class="five-day-forecast">
+            <!-- 5-day forecast will be displayed here -->
+        </div>
+    </div>
+</div>
+
+<!-- Active Weather Alerts -->
+<div class="card bg-dark text-light mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Active Weather Alerts</h5>
+        <div id="alerts-list">
+            <!-- Weather alerts will be displayed here -->
+        </div>
+    </div>
+</div>
+
+<!-- Add this to the head section to include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <div class="container">
         <!-- Weather Info Card -->
