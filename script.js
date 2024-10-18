@@ -1,4 +1,4 @@
-// Initialize Firebase
+// Firebase Configuration and Initialization
 const firebaseConfig = {
   apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
   authDomain: "jcni-webpage.firebaseapp.com",
@@ -10,6 +10,7 @@ const firebaseConfig = {
   measurementId: "G-PSP0FWZQZL"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 // Fetch Current Weather from OpenWeather API
