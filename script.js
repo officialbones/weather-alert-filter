@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Firebase Config
     const firebaseConfig = {
-        apiKey: "YOUR_FIREBASE_API_KEY", // Replace with your Firebase API key
+        apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ", // Replace with your Firebase API key
         authDomain: "jcni-webpage.firebaseapp.com",
         databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
         projectId: "jcni-webpage",
@@ -159,15 +159,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
         data.features.forEach(alert => {
             const { headline, description, severity, event, effective, expires } = alert.properties;
-            alertsListDiv.innerHTML += `
-                <div class="alert-item">
-                    <p><strong>Severity:</strong> ${severity}</p>
-                    <p>${headline} (${event})</p>
-                    <p><strong>Effective:</strong> ${new Date(effective).toLocaleString()}</p>
-                    <p><strong>Expires:</strong> ${new Date(expires).toLocaleString()}</p>
-                    <p>${description}</p>
+            const summary = headline || event;
+            const fullDetails = `
+                <p><strong>Severity:</strong> ${severity}</p>
+                <p><strong>Effective:</strong> ${new Date(effective).toLocaleString()}</p>
+                <p><strong>Expires:</strong> ${new Date(expires).toLocaleString()}</p>
+                <p>${description}</p>
+            `;
+            
+            const alertElement = document.createElement('div');
+            alertElement.className = 'alert alert-warning my-2';
+            alertElement.innerHTML = `
+                <div>
+                    <strong>Severity:</strong> ${severity}<br>
+                    ${summary}
                 </div>
             `;
+            
+            alertElement.style.cursor = "pointer";
+            alertElement.onclick = () => {
+                if (alertElement.querySelector('.details')) {
+                    alertElement.querySelector('.details').remove();
+                } else {
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'details mt-2';
+                    detailsDiv.innerHTML = fullDetails;
+                    alertElement.appendChild(detailsDiv);
+                }
+            };
+
+            alertsListDiv.appendChild(alertElement);
         });
     }
 });
