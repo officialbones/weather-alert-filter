@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const alertData = snapshot.val();
         if (alertData) {
             customAnnouncementDiv.innerHTML = `
-                <div style="background-color: ${alertData.color}">
-                    <h2>${alertData.heading}</h2>
+                <div class="alert alert-warning" role="alert" style="background-color: ${alertData.color}">
+                    <h4>${alertData.heading}</h4>
                     <p>${alertData.description}</p>
-                    <p>Posted: ${new Date(alertData.timestamp).toLocaleString()}</p>
+                    <p class="small">Posted: ${new Date(alertData.timestamp).toLocaleString()}</p>
                 </div>
             `;
         }
@@ -40,16 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Admin Modal logic
     const adminToggle = document.getElementById('admin-toggle');
-    const adminModal = document.getElementById('admin-modal');
-    const closeModal = document.getElementById('close-modal');
     const postAnnouncementBtn = document.getElementById('post-announcement');
 
     adminToggle.addEventListener('click', () => {
-        adminModal.style.display = 'block';
-    });
-
-    closeModal.addEventListener('click', () => {
-        adminModal.style.display = 'none';
+        const modal = new mdb.Modal(document.getElementById('admin-modal'));
+        modal.show();
     });
 
     // Post custom alert to Firebase
@@ -64,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
             color: color,
             timestamp: Date.now()
         });
-        adminModal.style.display = 'none';
     });
 
     // Remove custom announcement
@@ -99,11 +93,11 @@ document.addEventListener("DOMContentLoaded", () => {
         weatherInfoDiv.innerHTML = `
             <div class="current-temp">
                 <img src="${iconUrl}" alt="weather-icon">
-                <span>${temp}°F</span>
+                <h2>${temp}°F</h2>
+                <p>${description.charAt(0).toUpperCase() + description.slice(1)}</p>
+                <p>Humidity: ${humidity}%</p>
+                <p>Wind: ${windSpeed} mph</p>
             </div>
-            <p>${description.charAt(0).toUpperCase() + description.slice(1)}</p>
-            <p>Humidity: ${humidity}%</p>
-            <p>Wind: ${windSpeed} mph</p>
         `;
     }
 
