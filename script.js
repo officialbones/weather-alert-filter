@@ -1,18 +1,3 @@
-// Firebase Configuration and Initialization
-const firebaseConfig = {
-  apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
-  authDomain: "jcni-webpage.firebaseapp.com",
-  databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
-  projectId: "jcni-webpage",
-  storageBucket: "jcni-webpage.appspot.com",
-  messagingSenderId: "62856501328",
-  appId: "1:62856501328:web:86df1e0a0477671e501955",
-  measurementId: "G-PSP0FWZQZL"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
 // Fetch Current Weather from OpenWeather API
 function fetchCurrentWeather() {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&appid=75491fbd2d99da35a5aed98142354714&units=imperial`)
