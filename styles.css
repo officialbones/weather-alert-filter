@@ -1,117 +1,36 @@
-/* General Layout Styling */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #1f1f1f;
-    color: #f5f5f5;
+  background-color: #121212;
+  color: white;
 }
 
-/* Header Section */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #333;
+.card {
+  background-color: #333;
+  color: white;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
+.card-header {
+  background-color: #444;
 }
 
-.logo img {
-    width: 50px;
-    margin-right: 10px;
+.alert {
+  border-radius: 0;
+  color: white;
 }
 
-.nav a {
-    margin-right: 15px;
-    color: white;
-    text-decoration: none;
-}
-
-.nav a:hover {
-    text-decoration: underline;
-}
-
-/* Weather Cards Grid */
-.weather-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
-    padding: 20px;
-}
-
-.weather-card {
-    background-color: #2b2b2b;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.weather-card h3 {
-    margin-bottom: 15px;
-}
-
-/* Custom Announcement Styling */
-.announcement-section {
-    background-color: #ff5555;
-    padding: 15px;
-    color: white;
-    text-align: center;
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-/* Footer Section */
-.footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-}
-
-.refresh-btn {
-    background-color: #ff5555;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.refresh-btn:hover {
-    background-color: #ff7777;
-}
-
-/* Admin Modal */
-.admin-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #444;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 10;
+#custom-announcement {
+  padding: 10px;
+  text-align: center;
+  display: none;
 }
 
 .modal-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  background-color: #333;
 }
 
-#admin-modal input, #admin-modal textarea {
-    padding: 10px;
-    font-size: 1em;
-    width: 100%;
+.modal-footer button {
+  background-color: #ff6666;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .weather-grid {
-        grid-template-columns: 1fr;
-    }
+.navbar-brand img {
+  margin-right: 10px;
 }
