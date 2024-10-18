@@ -8,6 +8,80 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <img src="logo.png" alt="Logo" />
+    </div>
+    <h1>Jay County News & Information</h1>
+    <nav class="nav">
+      <button class="btn" id="bulletin">Weather Bulletin</button>
+      <button class="btn">Facebook</button>
+      <button class="btn">Login/Signup</button>
+      <button class="btn">PCP</button>
+    </nav>
+  </header>
+
+  <div class="alert" id="customAlert">
+    <h2 id="customAlertHeading"></h2>
+    <p id="customAlertDescription"></p>
+    <p id="customAlertTime"></p>
+  </div>
+
+  <main class="main-content">
+    <section class="current-weather">
+      <h2>Current Weather</h2>
+      <div id="weather-card">
+        <h3 id="currentTemp">Loading...</h3>
+        <p id="currentDescription"></p>
+        <p>Humidity: <span id="currentHumidity"></span></p>
+        <p>Wind: <span id="currentWind"></span></p>
+      </div>
+    </section>
+
+    <section class="forecast">
+      <h2>5-Day Weather Forecast</h2>
+      <div id="forecast" class="forecast-row"></div>
+    </section>
+
+    <section class="alerts">
+      <h2>Active Weather Alerts</h2>
+      <div id="alerts" class="alert-box">
+        No alerts available.
+      </div>
+    </section>
+
+    <section class="radar">
+      <h2>Live Radar</h2>
+      <div class="radar-placeholder">
+        <!-- Embed radar map here -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <button class="btn-admin" id="admin">Admin</button>
+    <button class="btn-remove" id="removeAnnouncement">Remove Announcement</button>
+    <p>© 2024 Jay County News & Information</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jay County News & Information</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <!-- Firebase scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
