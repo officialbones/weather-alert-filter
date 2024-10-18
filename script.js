@@ -1,3 +1,35 @@
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
+  authDomain: "jcni-webpage.firebaseapp.com",
+  databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
+  projectId: "jcni-webpage",
+  storageBucket: "jcni-webpage.appspot.com",
+  messagingSenderId: "62856501328",
+  appId: "1:62856501328:web:86df1e0a0477671e501955",
+  measurementId: "G-PSP0FWZQZL"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Fetch Custom Alerts from Firebase
+function fetchCustomAlerts() {
+  const alertRef = database.ref('alerts');
+  alertRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      document.getElementById('alerts').innerHTML = `
+        <h3>Severity: ${data.severity}</h3>
+        <p>${data.message}</p>
+      `;
+    } else {
+      document.getElementById('alerts').innerHTML = 'No alerts available.';
+    }
+  });
+}
+
 // Fetch Current Weather from OpenWeather API
 function fetchCurrentWeather() {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&appid=75491fbd2d99da35a5aed98142354714&units=imperial`)
@@ -18,7 +50,7 @@ function fetchFiveDayForecast() {
     .then(data => {
       const forecastRow = document.getElementById('forecast');
       forecastRow.innerHTML = '';
-      for (let i = 0; i < data.list.length; i += 8) { // Skip to next day
+      for (let i = 0; i < data.list.length; i += 8) {
         const day = data.list[i];
         const forecastDay = document.createElement('div');
         forecastDay.classList.add('forecast-day');
@@ -63,4 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchCurrentWeather();
   fetchFiveDayForecast();
   fetchWeatherAlerts();
+  fetchCustomAlerts();
 });
