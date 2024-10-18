@@ -1,96 +1,30 @@
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #1b1b1b;
-  color: #ffffff;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    background-color: #1a1a1a;
+    color: white;
 }
 
-.header {
-  background-color: #202020;
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  align-items: center;
+#logo {
+    width: 100px;
 }
 
-.logo img {
-  width: 50px;
+header {
+    padding: 20px;
 }
 
-h1 {
-  font-size: 1.5rem;
-  color: #ffffff;
-}
-
-.nav .btn {
-  background-color: #ffffff;
-  color: #333333;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin: 0 0.5rem;
-  cursor: pointer;
-}
-
-.nav .btn:hover {
-  background-color: #333333;
-  color: #ffffff;
-}
-
-.main-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 2rem;
-}
-
-.current-weather, .forecast, .alerts, .radar {
-  width: 48%;
-  margin-bottom: 2rem;
-}
-
-.forecast-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-#weather-card {
-  background-color: #333333;
-  padding: 1rem;
-  border-radius: 10px;
-}
-
-.forecast-row .forecast-day {
-  background-color: #333333;
-  padding: 1rem;
-  margin: 0.5rem;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.alert-box {
-  background-color: #cc0000;
-  padding: 1rem;
-  border-radius: 10px;
+.card {
+    margin: 10px 0;
 }
 
 .alert {
-  padding: 1rem;
-  margin: 1rem 0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#forecast .forecast-day {
+    text-align: center;
+    width: 18%;
 }
 
 footer {
-  background-color: #202020;
-  text-align: center;
-  padding: 1rem;
-}
-
-.btn-admin, .btn-remove {
-  background-color: #ff5555;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  margin: 0.5rem;
+    margin-top: 50px;
 }
