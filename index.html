@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <header class="header">
@@ -33,7 +34,7 @@
     <section class="current-weather">
       <h2>Current Weather</h2>
       <div id="weather-card">
-        <h3 id="currentTemp"></h3>
+        <h3 id="currentTemp">Loading...</h3>
         <p id="currentDescription"></p>
         <p>Humidity: <span id="currentHumidity"></span></p>
         <p>Wind: <span id="currentWind"></span></p>
