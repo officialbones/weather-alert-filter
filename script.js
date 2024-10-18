@@ -79,82 +79,18 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(data => {
                 displayCurrentWeather(data);
-            });
+            })
+            .catch(err => console.error('Error fetching weather data:', err));
     }
 
     function displayCurrentWeather(data) {
+        if (!data.main || !data.weather) {
+            console.error("Invalid weather data:", data);
+            return;
+        }
+
         const temp = data.main.temp;
         const description = data.weather[0].description;
         const humidity = data.main.humidity;
         const windSpeed = data.wind.speed;
-        const iconCode = data.weather[0].icon;
-        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-        weatherInfoDiv.innerHTML = `
-            <div class="current-temp">
-                <img src="${iconUrl}" alt="weather-icon">
-                <h2>${temp}°F</h2>
-                <p>${description.charAt(0).toUpperCase() + description.slice(1)}</p>
-                <p>Humidity: ${humidity}%</p>
-                <p>Wind: ${windSpeed} mph</p>
-            </div>
-        `;
-    }
-
-    function fetchFiveDayForecast(lat, lon, apiKey) {
-        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                displayFiveDayForecast(data);
-            });
-    }
-
-    function displayFiveDayForecast(data) {
-        forecastDiv.innerHTML = '<h5>5-Day Forecast</h5>';
-        const days = data.list.filter((reading) => reading.dt_txt.includes("12:00:00"));
-        days.forEach((day) => {
-            const date = new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
-            const temp = day.main.temp;
-            const iconCode = day.weather[0].icon;
-            const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-            forecastDiv.innerHTML += `
-                <div class="forecast-day">
-                    <p>${date}</p>
-                    <img src="${iconUrl}" alt="weather-icon">
-                    <p>${temp}°F</p>
-                </div>
-            `;
-        });
-    }
-
-    function fetchWeatherAlerts() {
-        const alertsUrl = `https://api.weather.gov/alerts/active?point=40.4357,-85.01`;
-        fetch(alertsUrl)
-            .then(response => response.json())
-            .then(data => {
-                displayWeatherAlerts(data);
-            });
-    }
-
-    function displayWeatherAlerts(data) {
-        if (data.features.length === 0) {
-            alertsListDiv.innerHTML = '<p>No alerts available.</p>';
-            return;
-        }
-
-        data.features.forEach(alert => {
-            const { headline, description, severity, event, effective, expires } = alert.properties;
-            alertsListDiv.innerHTML += `
-                <div class="alert-item">
-                    <p><strong>Severity:</strong> ${severity}</p>
-                    <p>${headline} (${event})</p>
-                    <p><strong>Effective:</strong> ${new Date(effective).toLocaleString()}</p>
-                    <p><strong>Expires:</strong> ${new Date(expires).toLocaleString()}</p>
-                    <p>${description}</p>
-                </div>
-            `;
-        });
-    }
-});
+        const iconCode = data.weather
