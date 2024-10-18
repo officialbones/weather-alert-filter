@@ -1,6 +1,6 @@
-// Firebase initialization (ensure you have your Firebase config setup in the HTML)
+// Firebase setup with your Firebase credentials
 const firebaseConfig = {
-  apiKey: "75491fbd2d99da35a5aed98142354714",
+  apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
   authDomain: "jcni-webpage.firebaseapp.com",
   databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
   projectId: "jcni-webpage",
@@ -10,124 +10,72 @@ const firebaseConfig = {
   measurementId: "G-PSP0FWZQZL"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const dbRef = firebase.database().ref();
 
-// Display Current Weather using OpenWeather API
-const weatherApiKey = "75491fbd2d99da35a5aed98142354714";
-const lat = "40.4357"; // replace with your coordinates
-const lon = "-85.01"; // replace with your coordinates
-
-function displayCurrentWeather() {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`)
-    .then((response) => response.json())
-    .then((data) => {
-      document.getElementById("weather-info").innerHTML = `
-        <h2>${data.main.temp.toFixed(2)}°F</h2>
-        <p>${data.weather[0].description}</p>
-        <p>Humidity: ${data.main.humidity}%</p>
-        <p>Wind: ${data.wind.speed} mph</p>
-      `;
+// Fetch Current Weather from OpenWeather API with your API key
+function fetchCurrentWeather() {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&appid=75491fbd2d99da35a5aed98142354714&units=imperial`)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('currentTemp').textContent = `${data.main.temp}°F`;
+      document.getElementById('currentDescription').textContent = data.weather[0].description;
+      document.getElementById('currentHumidity').textContent = data.main.humidity + "%";
+      document.getElementById('currentWind').textContent = data.wind.speed + " mph";
     })
-    .catch((error) => console.error("Error fetching weather data:", error));
+    .catch(error => console.error('Error fetching weather:', error));
 }
 
-// Display 5-Day Forecast using OpenWeather API
-function displayFiveDayForecast() {
-  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`)
-    .then((response) => response.json())
-    .then((data) => {
-      let forecastHtml = "";
-      for (let i = 0; i < data.list.length; i += 8) {
-        const dayData = data.list[i];
-        forecastHtml += `
-          <div class="forecast-day">
-            <p>${new Date(dayData.dt_txt).toLocaleDateString()}</p>
-            <p>${dayData.main.temp.toFixed(2)}°F</p>
-            <p>${dayData.weather[0].description}</p>
-          </div>`;
+// Fetch 5-Day Weather Forecast from OpenWeather API with your API key
+function fetchFiveDayForecast() {
+  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=40.4357&lon=-85.01&appid=75491fbd2d99da35a5aed98142354714&units=imperial`)
+    .then(response => response.json())
+    .then(data => {
+      const forecastRow = document.getElementById('forecast');
+      forecastRow.innerHTML = '';
+      for (let i = 0; i < data.list.length; i += 8) { // Skip to next day
+        const day = data.list[i];
+        const forecastDay = document.createElement('div');
+        forecastDay.classList.add('forecast-day');
+        forecastDay.innerHTML = `
+          <p>${new Date(day.dt * 1000).toLocaleDateString()}</p>
+          <p>${day.main.temp}°F</p>
+          <p>${day.weather[0].description}</p>
+        `;
+        forecastRow.appendChild(forecastDay);
       }
-      document.getElementById("five-day-forecast").innerHTML = forecastHtml;
     })
-    .catch((error) => console.error("Error fetching 5-day forecast:", error));
+    .catch(error => console.error('Error fetching forecast:', error));
 }
 
-// Fetch and display weather alerts from the NWS API
-function displayWeatherAlerts() {
-  fetch(`https://api.weather.gov/alerts/active?point=${lat},${lon}`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.features.length > 0) {
-        let alertsHtml = data.features.map((alert) => `
-          <div class="alert alert-danger">
-            <strong>Severity: ${alert.properties.severity}</strong>
+// Fetch NWS Weather Alerts with your API setup
+function fetchWeatherAlerts() {
+  fetch(`https://api.weather.gov/alerts/active?point=40.4357,-85.01`)
+    .then(response => response.json())
+    .then(data => {
+      const alerts = data.features;
+      const alertsContainer = document.getElementById('alerts');
+      alertsContainer.innerHTML = '';
+      if (alerts.length > 0) {
+        alerts.forEach(alert => {
+          const alertDiv = document.createElement('div');
+          alertDiv.classList.add('alert-box');
+          alertDiv.innerHTML = `
+            <h3>${alert.properties.event}</h3>
             <p>${alert.properties.headline}</p>
-            <p>${alert.properties.description}</p>
-          </div>`).join("");
-        document.getElementById("alerts-list").innerHTML = alertsHtml;
+          `;
+          alertsContainer.appendChild(alertDiv);
+        });
       } else {
-        document.getElementById("alerts-list").innerHTML = "No alerts available.";
+        alertsContainer.innerHTML = 'No alerts available.';
       }
     })
-    .catch((error) => console.error("Error fetching alerts:", error));
+    .catch(error => console.error('Error fetching alerts:', error));
 }
 
-// Function to post custom announcements to Firebase
-function postCustomAnnouncement() {
-  const heading = document.getElementById("alert-heading").value;
-  const description = document.getElementById("alert-description").value;
-  const boxColor = document.getElementById("alert-color").value;
-  const timestamp = new Date().toLocaleString();
-
-  dbRef.child("announcements").set({
-    heading: heading,
-    description: description,
-    boxColor: boxColor,
-    timestamp: timestamp
-  });
-}
-
-// Fetch and display custom announcement from Firebase
-function displayCustomAnnouncement() {
-  dbRef.child("announcements").on("value", (snapshot) => {
-    if (snapshot.exists()) {
-      const { heading, description, boxColor, timestamp } = snapshot.val();
-      document.getElementById("custom-announcement").innerHTML = `
-        <div class="alert" style="background-color:${boxColor}; color:white;">
-          <strong>${heading}</strong>
-          <p>${description}</p>
-          <p><small>Posted: ${timestamp}</small></p>
-        </div>`;
-      document.getElementById("custom-announcement").style.display = "block";
-    } else {
-      document.getElementById("custom-announcement").style.display = "none";
-    }
-  });
-}
-
-// Remove custom announcement
-document.getElementById("remove-announcement").addEventListener("click", () => {
-  dbRef.child("announcements").remove();
-  document.getElementById("custom-announcement").style.display = "none";
-});
-
-// Admin modal toggling
-document.getElementById("admin-toggle").addEventListener("click", () => {
-  const adminModal = new mdb.Modal(document.getElementById("admin-modal"));
-  adminModal.show();
-});
-
-// Post custom announcement from modal
-document.getElementById("post-announcement").addEventListener("click", () => {
-  postCustomAnnouncement();
-  const adminModal = mdb.Modal.getInstance(document.getElementById("admin-modal"));
-  adminModal.hide();
-});
-
-// Initialize weather and alerts display on page load
-document.addEventListener("DOMContentLoaded", () => {
-  displayCurrentWeather();
-  displayFiveDayForecast();
-  displayWeatherAlerts();
-  displayCustomAnnouncement();
+// Load weather data on page load
+document.addEventListener('DOMContentLoaded', () => {
+  fetchCurrentWeather();
+  fetchFiveDayForecast();
+  fetchWeatherAlerts();
 });
