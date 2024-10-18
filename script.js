@@ -1,4 +1,4 @@
-// Firebase setup with your Firebase credentials
+// Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
   authDomain: "jcni-webpage.firebaseapp.com",
@@ -10,10 +10,9 @@ const firebaseConfig = {
   measurementId: "G-PSP0FWZQZL"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Fetch Current Weather from OpenWeather API with your API key
+// Fetch Current Weather from OpenWeather API
 function fetchCurrentWeather() {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=40.4357&lon=-85.01&appid=75491fbd2d99da35a5aed98142354714&units=imperial`)
     .then(response => response.json())
@@ -26,7 +25,7 @@ function fetchCurrentWeather() {
     .catch(error => console.error('Error fetching weather:', error));
 }
 
-// Fetch 5-Day Weather Forecast from OpenWeather API with your API key
+// Fetch 5-Day Weather Forecast from OpenWeather API
 function fetchFiveDayForecast() {
   fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=40.4357&lon=-85.01&appid=75491fbd2d99da35a5aed98142354714&units=imperial`)
     .then(response => response.json())
@@ -48,7 +47,7 @@ function fetchFiveDayForecast() {
     .catch(error => console.error('Error fetching forecast:', error));
 }
 
-// Fetch NWS Weather Alerts with your API setup
+// Fetch NWS Weather Alerts
 function fetchWeatherAlerts() {
   fetch(`https://api.weather.gov/alerts/active?point=40.4357,-85.01`)
     .then(response => response.json())
