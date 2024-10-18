@@ -8,10 +8,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Firebase CDN for client-side -->
+  <!-- Firebase CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+
+  <!-- Initialize Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgrJX3NKXt_jJ3iVmYCuNze3HievOnrqQ",
+      authDomain: "jcni-webpage.firebaseapp.com",
+      databaseURL: "https://jcni-webpage-default-rtdb.firebaseio.com",
+      projectId: "jcni-webpage",
+      storageBucket: "jcni-webpage.appspot.com",
+      messagingSenderId: "62856501328",
+      appId: "1:62856501328:web:86df1e0a0477671e501955",
+      measurementId: "G-PSP0FWZQZL"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+  </script>
 </head>
+
 <body>
   <header class="header">
     <div class="logo">
